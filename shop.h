@@ -35,6 +35,7 @@ class shop
         static void add_Model(Robot_model*);
 		static void add_Order(Order *);
 		static void add_SA(SA*);
+		static void model_add_component(int ,int );
 		/****************** REMOVE ********************/
         static void remove_component(int );
         static void remove_Model(int );
@@ -60,6 +61,8 @@ class shop
 		static void Process_Order(int);
 		/****************** PHB AND SA ******************/
 		static void Give_Deny_Raise_SA(int , int);
+		/****************** Destructor *****************/
+		~shop();
 };
 
 #endif

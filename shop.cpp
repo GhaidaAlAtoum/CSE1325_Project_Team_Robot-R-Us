@@ -22,8 +22,7 @@ Product_Manager shop::shop_Product_Manager = Product_Manager::get_Instance();
 vector <Order*> shop::shop_processed_Orders ; 
 vector <Order*>  shop::shop_unprocessed_Orders ;
 vector <SA*> shop::Sales_Associate_of_Shop;
-shop& shop::Instance_shop( )
-{
+shop& shop::Instance_shop( ){
 	static shop instance;
            return instance;
 }
@@ -32,7 +31,7 @@ void shop::add_PM(Product_Manager & temp){
  shop_Product_Manager=temp;	
 }
 void shop::add_component(Robot_Part * temp){
-    	components.push_back(temp);
+	   	components.push_back(temp);
 }
 void shop::add_Model(Robot_model* temp){
     	Models.push_back(temp);
@@ -67,8 +66,29 @@ void shop::save_Robot_Models(){
 	char c='*';
 	ofstream ShopFile ("Robot_Models_Saved.txt");
 	for( auto & num : Models ){
-	  ShopFile<<c<<endl;
+      //LOOP through each Model
+		ShopFile<<c<<endl;
+	  //Loop through each Model Arms which there could be None, one , or two.
+	   for(int itterator =0; itterator<=(num->Get_number_of_Arms());itterator++){
+	      
+	   }
+      // If the Model Has a Torso Save it
+	   if(num->Get_Torso_Exist()){
 	   
+	   }
+	  // If the Model Has a Loco Save it
+	   if(num->Get_Loco_Exist()){
+	   
+	   }
+	  // If the Model Has a Head Save it
+	   if(num->Get_Head_Exist()){
+	   
+	   }
+	 //Loop through each Model Arms which there could be any Number
+	   for(int itterator2 =0; itterator2<=(num->Get_number_of_Batteries());itterator2++){
+	      
+	   }
+		   
 	}
 	
 	ShopFile.close();
@@ -76,7 +96,7 @@ void shop::save_Robot_Models(){
 void shop::save_Robot_Components(){
 	ofstream shopFile ("Robot_Components_Saved.txt");
 	for( auto & num : components ){
-	    switch(num->Type()){
+		   switch(num->Type()){
 			case 1: shopFile<<num->Type()<<endl;
 				    shopFile<<num->get_part_name()<<endl;
 				    shopFile<<num->get_part_number()<<endl;
@@ -246,7 +266,6 @@ void shop::Read_PM_info(){
 	
 }
 /****************** PHB AND SA ******************/
-
 void  shop::Give_Deny_Raise_SA(int index, int yes_No){
    if(yes_No ==1){
 	     int X = Sales_Associate_of_Shop[index]->number_of_processed_orders();
@@ -262,11 +281,48 @@ void  shop::Give_Deny_Raise_SA(int index, int yes_No){
 void shop::Process_Order(int index){
 	
 }
-
-
-
-
-
+/****************** Destructor *****************/
+shop::~shop(){
+}
+/****************** Adding Components to Model *****************/
+void shop::model_add_component(int model_index,int component_index){
+    Robot_Part * temp = components[component_index];
+	int type = temp->Type();
+	Arm * A;
+	Torso *T;
+	Locomotor * L;
+	Head * H ;
+	Battery * B;
+	bool can_Add ;
+	switch(type){
+		case 1:
+			   A= (Arm*)(temp);
+			   can_Add=Models[model_index]->add_Arm((*(A)));
+			cout<<" Can ADD ARM : "<<can_Add<<endl;
+			   break;
+		case 2:
+			   T = (Torso*)(temp);
+			  can_Add= Models[model_index]->add_Torso((*(T)));
+			cout<<" Can ADD Torso : "<<can_Add<<endl;
+			   break;
+		case 3:
+			  L =(Locomotor*)(temp);
+			   can_Add=Models[model_index]->add_Locomotor((*(L)));
+			cout<<" Can ADD Loco : "<<can_Add<<endl;
+			   break;
+		case 4:
+			  H=(Head*)(temp);
+			   can_Add=Models[model_index]->add_Head((*(H)));
+			cout<<" Can ADD Head : "<<can_Add<<endl;
+			   break;
+		case 5:
+			   B=(Battery*)(temp);
+			   Models[model_index]->add_Battery((*(B)));
+            cout<<"Can ADD battery \n";
+			   break;
+	}
+		
+}
 
 
 

@@ -32,53 +32,56 @@ void Product_Manager::change_pass(string new_pass){
 void Product_Manager::Instance_new_Arm(string name, string model_number, string description, string image_filename,
 									   double cost, double weight,double max_power)
 {   
-	Arm temp(name,model_number,description,image_filename,cost,weight,max_power);
+	Robot_Part * temp= new Arm(name,model_number,description,image_filename,cost,weight,max_power);
 		push_component(temp);
 }
 /******************* Instance Torso *********************/
 void Product_Manager::Instance_new_Torso(string name, string model_number, string description, string image_filename, double cost,
 										 double weight, int max_arms, int battery_compartments)
 {   
-	Torso temp(name,model_number,description,image_filename,cost,weight,max_arms,battery_compartments);
+	Robot_Part *temp=new Torso(name,model_number,description,image_filename,cost,weight,max_arms,battery_compartments);
 	push_component(temp);
 }
 /******************* Instance Locomotor *********************/
 void Product_Manager::Instance_new_Locomotor(string name, string model_number, string description, string image_filename, double cost,
 											 double weight, double max_speed, double max_power)
 {   
-	Locomotor temp(name,model_number,description,image_filename,cost,weight,max_speed,max_power);
+	Robot_Part *temp=new Locomotor(name,model_number,description,image_filename,cost,weight,max_speed,max_power);
 	push_component(temp);
 }
 /******************* Instance Head *********************/
 void Product_Manager::Instance_new_Head(string name, string model_number, string description, string image_filename, 
 										double cost, double weight,double max_power)
 {   
-	Head temp(name,model_number,description,image_filename,cost,weight,max_power);
+	Robot_Part *temp=new Head(name,model_number,description,image_filename,cost,weight,max_power);
 	push_component(temp);
 }
 /******************* Instance Battery *********************/
 void Product_Manager::Instance_new_Battery(string name, string model_number,string description,string image_filename, 
 										   double cost,double weight, double power_available, double max_energy)
 {   
-	Locomotor temp(name,model_number,description,image_filename,cost,weight,power_available,max_energy);
+	Robot_Part *temp=new Battery(name,model_number,description,image_filename,cost,weight,power_available,max_energy);
 	push_component(temp);
 }
 /******************* Instance Model *********************/
 void Product_Manager::Instance_new_model(string m_name,string m_number)
 {
-	Robot_model temp(m_name,m_number);
+	Robot_model * temp= new Robot_model(m_name,m_number);
   	push_Model(temp);
 	
 }
+void Product_Manager::Model_Add_component(int model_index,int component_index){
+     	shop::model_add_component(model_index,component_index);
+}
 /******************* Push Component/Model *********************/
-void Product_Manager::push_component(Robot_Part& temp)
+void Product_Manager::push_component(Robot_Part *temp)
 {
-	shop::add_component(&temp);
+	shop::add_component(temp);
 	
 }
-void Product_Manager::push_Model(Robot_model& temp)
+void Product_Manager::push_Model(Robot_model* temp)
 {
-	shop::add_Model(&temp);	
+	shop::add_Model(temp);	
 }
 /******************* Pull Component/Model *********************/
 void   Product_Manager::pull_component(int component_index){

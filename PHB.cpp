@@ -28,8 +28,8 @@ vector<string> PHB::Check_for_raise_req(){
    }
 /******************* Add/Remove SA *********************/
 void   PHB::Add_SA(string name,string pass){
-    SA temp(name,pass);
-	shop::add_SA(&temp);
+    SA *temp = new SA(name,pass);
+	shop::add_SA(temp);
 }
 void   PHB::Remove_SA(int index){
      shop::remove_SA(index);

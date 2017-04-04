@@ -16,6 +16,7 @@ private:
   double max_power;
 public:
   Arm();
+  ~Arm(){}
   Arm(string, string, string, string, double, double,double);
   double get_max_power_Arm();
   int Type(){ return 1; }
@@ -32,6 +33,7 @@ private:
   int max_arms;
 public:
   Torso();
+  ~Torso(){}
   Torso(string, string, string, string, double, double, int, int);
   int Type(){ return 2; } 
   int get_battery_compartments();
@@ -49,6 +51,7 @@ private:
 public:
   int Type(){ return 3; }
   Locomotor();
+  ~Locomotor(){}
   Locomotor(string, string, string, string, double,double, double, double);
   double get_max_speed(){ return max_speed;}
   double get_max_power(){ return max_power;}
@@ -66,6 +69,7 @@ private:
 public:
   int Type(){ return 4; }
   Head();
+ ~Head(){}
   Head(string, string, string, string, double, double,double);
   double Getpower();
   void set_head_power(double temp){ power = temp; }
@@ -81,6 +85,7 @@ private:
 public:
   int Type(){ return 5; }
   Battery();
+ ~Battery(){}
   Battery(string, string,string,string, double,double, double, double);
   double get_power();
   double get_max_energy();

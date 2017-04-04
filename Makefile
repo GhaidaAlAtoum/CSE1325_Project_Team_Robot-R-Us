@@ -29,7 +29,7 @@ Main.o: Main.cpp
 run:
 	./sprint.out
 clean: 
-	rm -rf *o *.h.gch *.out game.out
+	rm Robot_Components_Saved.txt -rf *o *.h.gch *.out sprint.out 
 
 
 

@@ -205,6 +205,27 @@ int Robot_model::Get_number_of_Arms() {
 int Robot_model::Get_number_of_Batteries(){
 	return model_Battery.size();
 }
+/******************* Get Torso Exist  *********************/
+bool Robot_model::Get_Torso_Exist(){
+	if(model_Torso.size()!=0)
+		return 1;
+	else
+		return 0;
+}
+/******************* Get Loco Exist  *********************/
+bool Robot_model::Get_Loco_Exist(){
+		if(model_Locomotor.size()!=0)
+		return 1;
+	else
+		return 0;
+}
+/******************* Get Head Exist  *********************/
+bool Robot_model::Get_Head_Exist(){
+		if(model_Head.size()!=0)
+		return 1;
+	else
+		return 0;
+}
 /******************* Get Model Cost (Theoritical) *********************/
 double Robot_model::Get_Model_Cost(){
     double cost=0.0;
