@@ -1,9 +1,9 @@
 # CSE1325_Project_Team_Robot-R-Us
 /*********************************** Team Robot'R'Us ***********************************/
-Team Members : Ghaida Al-Atoum , Junu Dhungana , and Jordan McGalliard
+Team Members : Ghaida Al-Atoum , Junu Dhungana , and Jordan McGalliard \n
 
 Team Github Repository : https://github.com/GhaidaAt95/CSE1325_Project_Team_Robot-R-Us.git
-
+\n
 Notes :
      1- The repository has the Classes files and a make file that compiles the Main.cpp
 	        with the command make all
