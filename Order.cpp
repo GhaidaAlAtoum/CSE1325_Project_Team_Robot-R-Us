@@ -53,6 +53,10 @@ void Order::Set_Status(int i){
 void Order::set_Quantity(int temp){
 	Quantity=temp;
 }
+/******************** Set Model ********************/
+void Order::Set_Model(Robot_model order_model){
+	
+}
 /*********** Get_Order_cost ***********/
 double Order::order_price(){
    return(Robot_Model_Order.Get_Model_Cost());

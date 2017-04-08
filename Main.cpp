@@ -27,7 +27,8 @@ int main(){
     boss.Add_SA("Rayan","Rayan123");
 	boss.Add_SA("Chris","Chris123");
 	/********************* Create a Customer *********************/
-	
+	customer Num1("John","123","John@gmail.com","684-987-8654");
+	cout<<" Is Customer True "<<Num1.check_customer("John","123")<<endl;
     /********************* PM adding Components *********************/
     PM.Instance_new_Arm("A_1","2","A_2","A_3",21,22,23); //0
 	PM.Instance_new_Torso("T_1","1","T_2","T_3",12,13,14,15); //1
@@ -46,15 +47,25 @@ int main(){
 	PM.Model_Add_component(0,1);//torso (2) -- Should cout<< " Can ADD TORSO : 0" 
 	PM.Model_Add_component(0,5);//arm (2) 
 	PM.Model_Add_component(0,5);//arm (3) -- Should cout<< " Can ADD ARM : 0"
+	PM.Instance_new_model("Model22M","8672");
+	PM.Model_Add_component(1,1);//torso (1)
+	PM.Model_Add_component(1,3);//head (1)
+	PM.Model_Add_component(1,5);//arm (2)
+	/********************* Customer Making an Order *********************/
+     Num1.push_Order(1,5);
+	/********************* PM Removing Model *********************/
+	PM.pull_component(5);
+	/********************* PM Removing Model *********************/
+	PM.pull_Model(0);
 	/*************************** PHB check for Raise requests ***************************/
 	vector <string> Requests = boss.Check_for_raise_req();
 	for(auto & num : Requests){
 	  cout<<"Requests \t"<<num<<endl;
 	}
-	
+   	
 	/*************************** Saving Components ***************************/
 	SH.save_Robot_Components();
-	
+	SH.save_Robot_Models();
 	
 return 0; }
 

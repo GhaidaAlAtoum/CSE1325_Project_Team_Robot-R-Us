@@ -20,8 +20,12 @@ class customer {
 /**********************************  Print Orders/ Bills **********************************/
    string  view_Orders();
    string  view_bills();
+/********************************** Create an order **********************************/
+   void Creat_an_Order(int model_index,int Quantity){
+
+   }
 /********************************** push order **********************************/
-   void  push_Order(Order&);
+   void  push_Order(int,int);
 /********************************** Set Functions **********************************/
    void  set_Name(string);
    void  set_email(string);

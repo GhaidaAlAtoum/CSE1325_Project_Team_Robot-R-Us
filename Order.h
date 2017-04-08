@@ -30,6 +30,7 @@ class Order
 	 void set_Quantity(int);
 	 void Set_SA(SA);
 	 void Set_Status(int);
+	 void Set_Model(Robot_model);
 	 /*********** Get_Order_cost ***********/
 	 double order_price();
 	 double order_shipping_price();

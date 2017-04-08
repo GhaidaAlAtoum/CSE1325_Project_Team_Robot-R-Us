@@ -22,6 +22,7 @@ Product_Manager shop::shop_Product_Manager = Product_Manager::get_Instance();
 vector <Order*> shop::shop_processed_Orders ; 
 vector <Order*>  shop::shop_unprocessed_Orders ;
 vector <SA*> shop::Sales_Associate_of_Shop;
+int shop::num_orders=0;
 shop& shop::Instance_shop( ){
 	static shop instance;
            return instance;
@@ -36,8 +37,14 @@ void shop::add_component(Robot_Part * temp){
 void shop::add_Model(Robot_model* temp){
     	Models.push_back(temp);
 }
-void shop::add_Order(Order *temp){
+Order shop::add_Order(int model_index,int Quantity ){
+	 int num = num_orders;
+	 Robot_model temp_model= *(Models[model_index]);
+	 Order *temp =new Order(num,temp_model);
      shop_unprocessed_Orders.push_back(temp);
+	 num_orders+1;
+	cout<<"Order Number "<<num<<" Model Name "<<Models[model_index]->Get_model_name()<<" Quantity "<<Quantity<<endl;
+	 return(*(temp));
 }
 void shop::add_SA(SA * temp){
      shop::Sales_Associate_of_Shop.push_back(temp);
@@ -64,29 +71,53 @@ string shop::Print_Processed_Orders (){}
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
 	char c='*';
+	vector<string> Arm_Name;
+	vector<string> Arm_Number;
+	vector<double> Arm_Power;
 	ofstream ShopFile ("Robot_Models_Saved.txt");
 	for( auto & num : Models ){
       //LOOP through each Model
 		ShopFile<<c<<endl;
+		ShopFile<<num->Get_model_name()<<endl;
+		ShopFile<<num->Get_model_number()<<endl;
+		ShopFile<<num->Get_model_Price()<<endl;
 	  //Loop through each Model Arms which there could be None, one , or two.
-	   for(int itterator =0; itterator<=(num->Get_number_of_Arms());itterator++){
-	      
+	   for(int itterator =0; itterator<(num->Get_number_of_Arms());itterator++){
+	       ShopFile<<1<<endl;
+		   ShopFile<<num->Get_each_Arm_name(itterator)<<endl;
+		   ShopFile<<num->Get_each_Arm_number(itterator)<<endl;
+		   ShopFile<<num->Get_Arms_power(itterator)<<endl;	   
 	   }
       // If the Model Has a Torso Save it
 	   if(num->Get_Torso_Exist()){
-	   
+	      ShopFile<<2<<endl;
+		  ShopFile<<num->Get_Torso_part_name()<<endl;
+		  ShopFile<<num->Get_Torso_part_number()<<endl;
+		  ShopFile<<num->Get_Torso_Max_arms()<<endl;
+		  ShopFile<<num->Get_Torso_Bat_Comp()<<endl;
 	   }
 	  // If the Model Has a Loco Save it
 	   if(num->Get_Loco_Exist()){
-	   
+	      ShopFile<<3<<endl;
+          ShopFile<<num->Get_locomotor_part_name()<<endl;
+		  ShopFile<<num->Get_locomotor_part_number()<<endl;
+		  ShopFile<<num->Get_Locomotor_max_speed()<<endl;
+		  ShopFile<<num->Get_Locomotor_max_power()<<endl;
 	   }
 	  // If the Model Has a Head Save it
 	   if(num->Get_Head_Exist()){
-	   
+	      ShopFile<<4<<endl;
+          ShopFile<<num->Get_Head_part_name()<<endl;
+		  ShopFile<<num->Get_Head_part_number()<<endl;
+		  ShopFile<<num->Get_Head_power()<<endl;
 	   }
 	 //Loop through each Model Arms which there could be any Number
-	   for(int itterator2 =0; itterator2<=(num->Get_number_of_Batteries());itterator2++){
-	      
+	   for(int itterator2 =0; itterator2<(num->Get_number_of_Batteries());itterator2++){
+	       ShopFile<<5<<endl;
+		   ShopFile<<num->Get_each_Battery_name(itterator2)<<endl;
+		   ShopFile<<num->Get_each_Battery_number(itterator2)<<endl;
+		   ShopFile<<num->Get_Battery_available_power(itterator2)<<endl;
+		   ShopFile<<num->Get_Battery_max_energy(itterator2)<<endl;
 	   }
 		   
 	}

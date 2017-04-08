@@ -66,29 +66,25 @@ void Robot_model::add_Battery(Battery in_Battery){
 	model_Battery.push_back(in_Battery);
 		}
 /******************* Get Arm(s) Info  *********************/
-vector<double> Robot_model::Get_Arms_power() {
-    vector <double> power ;
+double Robot_model::Get_Arms_power(int index) {
+    double power=0.0;
 	if(model_Arm.size()!=0){
-	 for( auto & num : model_Arm ){
-	     power.push_back(num.get_max_power_Arm());
-	 } //end for
-	} //end if
+		power=model_Arm[index].get_max_power_Arm();
+	 	} //end if
 	   return power;
 }
-vector<string> Robot_model::Get_each_Arm_name(){
-	vector<string> temp;
+string Robot_model::Get_each_Arm_name(int index){
+	string temp;
 	if(model_Arm.size()!=0){
-	for(auto &num : model_Arm){
-	      temp.push_back(num.get_part_name());
-	}}
+	    temp=model_Arm[index].get_part_name();
+		}
 	return (temp);
 }
-vector<string> Robot_model::Get_each_Arm_number(){
-	vector<string> temp;
+string Robot_model::Get_each_Arm_number(int index){
+	string temp;
 	if(model_Arm.size()!=0){
-	for(auto &num : model_Arm){
-	      temp.push_back(num.get_part_number());
-	}}
+		temp=model_Arm[index].get_part_number();
+	}
 	return (temp);
 }
 /******************* Get Torso Info  *********************/
@@ -162,39 +158,32 @@ string Robot_model::Get_Head_part_number(){
 		return temp;}
 }
 /******************* Get Battery Info  *********************/
-vector<double> Robot_model::Get_Battery_available_power() {
-    vector <double> power ;
+double Robot_model::Get_Battery_available_power(int index) {
+    double power ;
 	if(model_Battery.size()!=0){
-	 for( auto & num : model_Battery ){
-	      power.push_back(num.get_power());
-	 } //end for
-	  
+		power=model_Battery[index].get_power();  
 	} //end if
 	return power;
 }
-vector<double> Robot_model::Get_Battery_max_energy() {
-    vector <double> energy ;
+double Robot_model::Get_Battery_max_energy(int index) {
+    double energy ;
 	if(model_Battery.size()!=0){
-	 for( auto & num : model_Battery ){
-	   		 energy.push_back(num.get_max_energy());
-	 } //end for
+		energy=model_Battery[index].get_max_energy(); 
 	} //end if
 	   return energy;
 }
-vector<string> Robot_model::Get_each_Battery_name(){
-	vector<string> temp;
+string Robot_model::Get_each_Battery_name(int index){
+	string temp;
 	if(model_Battery.size()!=0){
-	for(auto &num : model_Battery){
-	      temp.push_back(num.get_part_name());
-	} }
+		temp=model_Battery[index].get_part_name();
+ }
 	return (temp);
 }
-vector<string> Robot_model::Get_each_Battery_number(){
-	vector<string> temp;
+string Robot_model::Get_each_Battery_number(int index){
+	string temp;
 	if(model_Battery.size()!=0){
-	for(auto &num : model_Battery){
-	      temp.push_back(num.get_part_number());
-	}}
+		temp=model_Battery[index].get_part_number();
+	}
 	return (temp);
 }
 /******************* Get Number of Arms   *********************/
@@ -273,6 +262,10 @@ double Robot_model::Get_Model_Shipping_Cost(){
  string Robot_model::Get_model_number () { 
 	 return model_number ;
  }
+/******************* Get Model PRICE *********************/
+double  Robot_model::Get_model_Price(){
+   return(model_Price);
+}
 /*****************   Set Model Price ********************/
 void Robot_model::Set_Cost(double temp){
     model_Price=temp;

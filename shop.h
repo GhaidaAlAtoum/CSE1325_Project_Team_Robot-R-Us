@@ -24,6 +24,7 @@ class shop
 		 static vector <Order*> shop_processed_Orders ; 
          static vector <Order*>  shop_unprocessed_Orders ;
          static vector <SA*> Sales_Associate_of_Shop;
+		 static int num_orders ;
 		 shop(){
 		 }
 		 	      
@@ -33,7 +34,7 @@ class shop
 		static void add_PM(Product_Manager&);
 		static void add_component(Robot_Part*);
         static void add_Model(Robot_model*);
-		static void add_Order(Order *);
+		static Order add_Order(int,int);
 		static void add_SA(SA*);
 		static void model_add_component(int ,int );
 		/****************** REMOVE ********************/
@@ -61,8 +62,12 @@ class shop
 		static void Process_Order(int);
 		/****************** PHB AND SA ******************/
 		static void Give_Deny_Raise_SA(int , int);
+		
+		static int get_num_orders(){ return num_orders; }
 		/****************** Destructor *****************/
 		~shop();
+
+
 };
 
 #endif

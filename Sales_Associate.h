@@ -13,7 +13,7 @@ class SA
 	    string SA_Name="Default";
 		string SA_pass="123456";
 		vector<int> Orders_processed_indexes;
-		double Month_Salary = 1000;
+		double Month_Salary = 1000.0;
 	public:
 	    /****************** Constructors ******************/
 	    SA();
@@ -36,7 +36,7 @@ class SA
 		/****************** Number of processed Orders ******************/
 		int number_of_processed_orders();
 		/****************** Check Salary ******************/
-        int check_Salary();
+        double check_Salary();
 		/****************** Give_Raise ******************/
 		void Give_Raise(double); 
 

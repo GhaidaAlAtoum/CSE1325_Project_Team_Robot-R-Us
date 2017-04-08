@@ -17,13 +17,13 @@ customer::customer(string name,string pass,string emailin , string phone_num){
 bool customer::check_customer(string name, string pass){
 	 
 	if(( name == Name) && (password==pass)) {
-	    return 1;
+	    return 1;	
 	}
 	return 0;
 }
 /********************************** push order **********************************/
-void customer::push_Order(Order& temp ){
-	shop::add_Order(&temp);
+void customer::push_Order(int model_index,int Quantity ){
+	customer_orders.push_back(shop::add_Order(model_index,Quantity));
 }
 /********************************** Set Functions **********************************/
 void customer::set_Name(string temp){

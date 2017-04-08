@@ -28,31 +28,39 @@ class Robot_model
           ///////////////////////////////// Get ///////////////////////////////////////////////
           string Get_model_name ();  
 	      string Get_model_number () ;
+		  double Get_model_Price();
+          /******************* Get Arm(s) Info  *********************/   
+          string Get_each_Arm_name(int);
+          string Get_each_Arm_number(int);
+		  double Get_Arms_power(int) ;
+		  int    Get_number_of_Arms();
+          /******************* Get Torso Info  *********************/
 		  string Get_Torso_part_name();
 		  string Get_Torso_part_number();
-		  string Get_locomotor_part_name();
-		  string Get_locomotor_part_number();
-		  string Get_Head_part_name();
-		  string Get_Head_part_number();
-   vector<string> Get_each_Battery_name();
-   vector<string> Get_each_Battery_number();
-   vector<string> Get_each_Arm_name();
-   vector<string> Get_each_Arm_number();
-		  int    Get_number_of_Arms() ;
-	      int    Get_number_of_Batteries();
-		  bool    Get_Torso_Exist();
-		  bool    Get_Loco_Exist();
-		  bool    Get_Head_Exist();
 		  int    Get_Torso_Bat_Comp();
 	      int    Get_Torso_Max_arms();
-		  int    Get_Head_power();
-   vector<double> Get_Battery_available_power();
-   vector<double> Get_Battery_max_energy();
-		  double Get_Locomotor_max_speed();
-	      double Get_Locomotor_max_power();
+		  bool    Get_Torso_Exist();
+          /******************* Get Locomotor Info  *********************/
+		  string Get_locomotor_part_name();
+		  string Get_locomotor_part_number();
+ 		  double Get_Locomotor_max_speed();
+          double Get_Locomotor_max_power();
+		  bool    Get_Loco_Exist();
+          /******************* Get Head Info  *********************/		  
+		  bool    Get_Head_Exist();
+		  string Get_Head_part_name();
+		  string Get_Head_part_number();
+          int    Get_Head_power();
+          /******************* Get Battery Info  *********************/		  
+          double Get_Battery_available_power(int);
+          double Get_Battery_max_energy(int);
+          string Get_each_Battery_name(int);
+          string Get_each_Battery_number(int);
+		  int    Get_number_of_Batteries(); 
+          /******************* Get Model Cost (Theoritical) *********************/	      
 		  double Get_Model_Cost();
+          /******************* Get Model Shipping Cost (From The weights of each component)************/		  
 		  double Get_Model_Shipping_Cost();
-   vector<double> Get_Arms_power() ;
           /////////////////////////////////// Add ///////////////////////////////////////////////
           bool   add_Torso(Torso);
 	      bool   add_Head(Head);

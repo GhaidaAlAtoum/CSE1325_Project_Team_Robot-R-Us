@@ -45,8 +45,9 @@ class Product_Manager
 		  /******************* Print Catalogs ********************/
 		  void   Print_Catalog_Components();
 		  void   Print_Catalog_model();
-		  
+		  string Get_PM_name(){ return(manager_name);}
 
+ 
 };
 
 

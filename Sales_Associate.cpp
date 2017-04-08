@@ -44,7 +44,7 @@ int SA::number_of_processed_orders(){
     return( Orders_processed_indexes.size());
 }
 /****************** Check Salary ******************/
-int SA::check_Salary(){
+double SA::check_Salary(){
 	return (Month_Salary);
 }
 /****************** Give_Raise ******************/

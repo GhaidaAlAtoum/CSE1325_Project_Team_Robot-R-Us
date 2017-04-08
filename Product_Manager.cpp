@@ -93,6 +93,3 @@ void   Product_Manager::pull_Model(int Model_index){
 
 
 
-
-
-
