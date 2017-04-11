@@ -17,6 +17,7 @@ using namespace std;
 int main(){
 	/********************* Create shop *********************/
 	shop SH = shop::Instance_shop();
+
 	/********************* Create ProductManager *********************/
 	Product_Manager PM = Product_Manager::get_Instance();
 	PM.change_name("Ghaida");PM.change_pass("2017");
@@ -25,9 +26,11 @@ int main(){
 	PHB  boss = PHB::get_Instance_PHB();
 	/********************* PHB Create SA *********************/
     boss.Add_SA("Rayan","Rayan123");
-	boss.Add_SA("Chris","Chris123");
+	SA  *test=new SA("Chris","Chris123");
+	shop::add_SA(test);
 	/********************* Create a Customer *********************/
 	customer Num1("John","123","John@gmail.com","684-987-8654");
+	customer Num2("Jake","546","Jake@outlook.com","654-892-4721");
 	cout<<" Is Customer True "<<Num1.check_customer("John","123")<<endl;
     /********************* PM adding Components *********************/
     PM.Instance_new_Arm("A_1","2","A_2","A_3",21,22,23); //0
@@ -52,17 +55,54 @@ int main(){
 	PM.Model_Add_component(1,3);//head (1)
 	PM.Model_Add_component(1,5);//arm (2)
 	/********************* Customer Making an Order *********************/
-     Num1.push_Order(1,5);
+     cout<<"Customer "<<Num1.Get_name()<< " ";
+	 Num1.push_Order(1,5);
+	 Num1.push_Order(0,10);
+	 //cout<<Num1.view_Orders()<<endl;
+	 //cout<<Num1.check_order_status(0)<<endl;
+	// cout<<Num1.view_bills(0)<<endl;
+    /********************* Process an Order *********************/
+	SA * Test;
+    int T=shop::check_SA("Rayan","Rayan123");
+	if(T==-1){
+	   cout<<"Wrong PASS \n";	 
+	 }
+	else if(T==-2){
+		cout<<"SA does not exist"<<endl;
+	}
+	else{
+		cout<<"Log In success\n";
+	    Test=shop::login(T);
+	
+	cout<<"~~~~~~~~~~~~~~ Unprocessed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+	cout<<Test->check_for_unprocesses_Orders()<<endl;
+	Test->Process_an_order(0);
+	}
+	cout<<"~~~~~~~~~~~~~~ processed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+	cout<<shop::Print_Processed_Orders()<<endl;
+	cout<<"~~~~~~~~~~~~~~ Unprocessed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+	cout<<shop::Print_Unprocessed_Orders()<<endl;
+	cout<<Test->Get_SA_Name()<<" SALARY "<<Test->check_Salary()<<endl;
+	cout<<Test->number_of_processed_orders()<<endl;
+	cout<<Test->List_Of_Processed_Orders()<<endl;
+	/********************* Request A raise *********************/
+	Test->Request_Raise();
+	boss.Give_Deny_Raise(0,1);
+	cout<<Test->Get_SA_Name()<<" SALARY "<<Test->check_Salary()<<endl;
 	/********************* PM Removing Model *********************/
-	PM.pull_component(5);
+	//PM.pull_component(5);
 	/********************* PM Removing Model *********************/
-	PM.pull_Model(0);
+	//PM.pull_Model(0);
 	/*************************** PHB check for Raise requests ***************************/
+	cout<<"~~~~~~~~~~~~ List of SA ~~~~~~~~~~~~\n"; 
+	cout<<boss.Print_sale_for_each_SA()<<endl;
+	cout<<"\n";
 	vector <string> Requests = boss.Check_for_raise_req();
 	for(auto & num : Requests){
 	  cout<<"Requests \t"<<num<<endl;
 	}
-   	
+   	cout<<"\n\n";
+	cout<<PM.Print_Catalog_Components(5)<<endl;
 	/*************************** Saving Components ***************************/
 	SH.save_Robot_Components();
 	SH.save_Robot_Models();

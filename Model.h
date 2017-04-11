@@ -68,7 +68,7 @@ class Robot_model
 		  bool   add_Arm(Arm);
 	      void   add_Battery(Battery);
          //////////////////////////////////// Set ///////////////////////////////////////////////
-	/*****************   Set Model Price ********************/
+	     /*****************   Set Model Price ********************/
 	      void Set_Cost(double);
 	      
 

@@ -34,7 +34,7 @@ class shop
 		static void add_PM(Product_Manager&);
 		static void add_component(Robot_Part*);
         static void add_Model(Robot_model*);
-		static Order add_Order(int,int);
+		static Order add_Order(int,int,string);
 		static void add_SA(SA*);
 		static void model_add_component(int ,int );
 		/****************** REMOVE ********************/
@@ -59,15 +59,20 @@ class shop
 		static void Read_PHB_info();
 		static void Read_PM_info();
 		/****************** Process Order ******************/
-		static void Process_Order(int);
+		static void   Process_Order(int);
+		static Order* Get_Unprocessed_Order(int); 
 		/****************** PHB AND SA ******************/
 		static void Give_Deny_Raise_SA(int , int);
 		
 		static int get_num_orders(){ return num_orders; }
 		/****************** Destructor *****************/
 		~shop();
-
-
+		/****************** Log in of Customers and SA ******************/
+		static SA* login(int);
+        static int check_SA(string,string);
+        static string SA_Processed_Orders(string);
+		static string List_Of_SA();
+		static string list_components(int);
 };
 
 #endif

@@ -40,7 +40,7 @@ string PHB::Print_Profit_Margin_Of_each_Model(){
 }
 /******************* Print Sale for each SA *********************/
 string PHB::Print_sale_for_each_SA(){
-	
+	return(shop::List_Of_SA());
 }
 /******************* Give/Deny Raide *********************/
 	/* send the SA index , send 1 for YES 0 for NO */

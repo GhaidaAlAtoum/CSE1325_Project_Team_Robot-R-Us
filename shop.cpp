@@ -12,8 +12,6 @@
 #include <fstream>
 #include<sstream>
 #include<cstdio>
-
-
 using namespace std;
 vector <Robot_Part*> shop::components;
 vector <Robot_model*> shop::Models;
@@ -37,16 +35,21 @@ void shop::add_component(Robot_Part * temp){
 void shop::add_Model(Robot_model* temp){
     	Models.push_back(temp);
 }
-Order shop::add_Order(int model_index,int Quantity ){
+Order shop::add_Order(int model_index,int Quantity,string Name){
 	 int num = num_orders;
 	 Robot_model temp_model= *(Models[model_index]);
-	 Order *temp =new Order(num,temp_model);
+	 Order *temp =new Order(num,temp_model,Name);
      shop_unprocessed_Orders.push_back(temp);
-	 num_orders+1;
+	 num_orders++;
 	cout<<"Order Number "<<num<<" Model Name "<<Models[model_index]->Get_model_name()<<" Quantity "<<Quantity<<endl;
 	 return(*(temp));
 }
 void shop::add_SA(SA * temp){
+	for(auto & num : Sales_Associate_of_Shop){
+		if((num->Get_SA_Name())==(temp->Get_SA_Name())){
+		 cout<<" ERROR THIS NAME EXIST IN THE SA LIST\n WILL NOT BE ADDED\n";
+			return;
+		} }
      shop::Sales_Associate_of_Shop.push_back(temp);
 }
 /****************** REMOVE ********************/
@@ -66,8 +69,24 @@ string shop::Print_Catalog_Models(){
 string shop::Print_Catalog_Components(){
 	
 }
-string shop::Print_Unprocessed_Orders(){}
-string shop::Print_Processed_Orders (){}
+string shop::Print_Processed_Orders(){
+	int i=0;
+   string temp="(Index)	Order_Number	Date Of Order  SA Name	\n";
+   for(auto &num: shop_processed_Orders){
+	temp +='('+to_string(i)+')'+"\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\t"+num->Get_SAO_Name()+"\n";
+      i++; 
+    }
+	return(temp);
+}
+string shop::Print_Unprocessed_Orders (){
+	int i=0;
+   string temp="(Index)	Order_Number	Date Of Order  \n";
+   for(auto &num: shop_unprocessed_Orders){
+	temp +='('+to_string(i)+')'+"\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\n";
+      i++; 
+    }
+	return(temp);
+}
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
 	char c='*';
@@ -310,7 +329,11 @@ void  shop::Give_Deny_Raise_SA(int index, int yes_No){
 }
 /****************** Process Order ******************/
 void shop::Process_Order(int index){
-	
+	  shop_processed_Orders.push_back(shop_unprocessed_Orders[index]);
+	  shop_unprocessed_Orders.erase(shop_unprocessed_Orders.begin() + index);
+}
+Order* shop::Get_Unprocessed_Order(int index){
+    return(shop_unprocessed_Orders[index]);
 }
 /****************** Destructor *****************/
 shop::~shop(){
@@ -354,14 +377,97 @@ void shop::model_add_component(int model_index,int component_index){
 	}
 		
 }
-
-
-
-
-
-
-
-
+/****************** Log in of Customers and SA ******************/
+int shop::check_SA(string name, string pass){
+	int i=0;
+	for(auto & num : Sales_Associate_of_Shop){
+	   if((num->Get_SA_Name())==name){
+		  if(num->check_SA_Name_Pass(name,pass)){
+			 return(i);//return index of SA
+		  }//end_if_2
+		  else{
+			return(-1)  ;//pass word is wrong
+		  }
+	   }//end_if_1
+	i++;
+	}//end_for
+	return(-2);//SA does not exist 
+}
+SA* shop::login (int index){
+	return(Sales_Associate_of_Shop[index]);
+}
+/***************** SA list of processed Orders ********************/
+string shop::SA_Processed_Orders(string name){
+	string temp="Order Number	Order Date		Customer Name		Quantity\n";
+	for(auto& num : shop_processed_Orders){
+		if((num->Get_SAO_Name()) == name){
+			temp+="\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\t\t"+num->Get_Customer_name()+"\t\t\t"+to_string(num->Get_Quantity())+'\n';
+		}//end_if	
+		}//end_for
+	return temp;
+}
+string shop::List_Of_SA( ){
+  string temp="(index)		NAME		Number of Orders Processed \n";
+	int i=0;
+	for(auto& num : Sales_Associate_of_Shop){
+		temp+=to_string(i)+"\t\t"+num->Get_SA_Name()+"\t\t"+to_string(num->number_of_processed_orders())+"\n";
+	i++;
+	}
+	return(temp);
+}
+string shop::list_components(int Type){
+	int i=0;
+	string temp;
+		switch(Type){
+		case 1: temp+="(Index)	Name	Number	Cost	weight	Arm Power	\n";  
+				for(auto &num: components){
+					if((num->Type())==Type){
+temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
+temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_power_Arm())+"\nDesciption : "+num->get_part_description()+'\n';
+					}
+					i++;
+				}
+			   break;
+		case 2:temp+="(Index)	Name	Number	Cost	weight	max_#_arms		battery_compartments\n";  
+				for(auto &num: components){
+					if((num->Type())==Type){
+temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
+temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_arms())+"\t\t"+to_string(num->get_battery_compartments())+"\nDesciption : "+num->get_part_description()+'\n';
+					}
+					i++;
+				}
+			   break;
+		case 3:temp+="(Index)	Name	Number	Cost	weight	max speed		max power\n";  
+				for(auto &num: components){
+					if((num->Type())==Type){
+temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
+temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_speed())+"\t\t"+to_string(num->get_max_power())+"\nDesciption : "+num->get_part_description()+'\n';
+					}
+					i++;
+				}
+			   break;
+		case 4:temp+="(Index)	Name	Number	Cost	weight	Head Power	\n";  
+				for(auto &num: components){
+					if((num->Type())==Type){
+temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
+temp+=to_string(num->get_weight())+"\t"+to_string(num->Getpower())+"\nDesciption : "+num->get_part_description()+'\n';
+					}
+					i++;
+				}
+			  break;
+		case 5:temp+="(Index)	Name	Number	Cost	weight	available power		max energy\n";  
+				for(auto &num: components){
+					if((num->Type())==Type){
+temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
+temp+=to_string(num->get_weight())+"\t"+to_string(num->get_power())+"\t\t"+to_string(num->get_max_energy())+"\nDesciption : "+num->get_part_description()+'\n';
+					}
+					i++;
+				}
+			   break;	
+			
+	}
+	return temp;
+}
 
 
 

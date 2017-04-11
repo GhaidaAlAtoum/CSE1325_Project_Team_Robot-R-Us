@@ -19,17 +19,16 @@ class customer {
    bool  check_customer(string,string);
 /**********************************  Print Orders/ Bills **********************************/
    string  view_Orders();
-   string  view_bills();
-/********************************** Create an order **********************************/
-   void Creat_an_Order(int model_index,int Quantity){
-
-   }
+   string  view_bills(int index);
 /********************************** push order **********************************/
    void  push_Order(int,int);
 /********************************** Set Functions **********************************/
    void  set_Name(string);
    void  set_email(string);
    void  set_pass(string);
+/********************************** Get Functions **********************************/
+   string Get_name();
+   
 /**********************************  Check Order Status **********************************/
    int  check_order_status(int);
  
