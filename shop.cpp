@@ -13,6 +13,8 @@
 #include<sstream>
 #include <iomanip>
 #include<cstdio>
+#include "Utility.h"
+
 using namespace std;
 vector <Robot_Part*> shop::components;
 vector <Robot_model*> shop::Models;

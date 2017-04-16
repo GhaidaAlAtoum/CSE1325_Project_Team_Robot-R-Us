@@ -4,30 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Utility.h"
 
-using namespace std;
-void skip(istream& ist) {
-  if (ist.fail()) 
-    ist.clear();
-  ist.ignore(5, '\n');  
-}
-int get_int(istream& ist) {
-  int result = 0;
-  ist >> result;
-  skip(ist);
-  return result;
-}
-string get_string(istream& ist) {
-  string result = "";
-  getline(ist, result);
-  return result;
-}
-double get_double(istream& ist) {
-  double result = 0.0;
-  ist >> result;
-  skip(ist);
-  return result;
-}
 /********************************** Arm Class **********************************/
 class Arm:public Robot_Part
 {

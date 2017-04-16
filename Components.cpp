@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Utility.h"
 
 using namespace std;
 /********************************** Arm Class **********************************/
