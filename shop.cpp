@@ -11,6 +11,7 @@
 #include <string>
 #include <fstream>
 #include<sstream>
+#include <iomanip>
 #include<cstdio>
 using namespace std;
 vector <Robot_Part*> shop::components;
@@ -148,62 +149,22 @@ void shop::save_Robot_Components(){
 	for( auto & num : components ){
 		   switch(num->Type()){
 			case 1: shopFile<<num->Type()<<endl;
-				    shopFile<<num->get_part_name()<<endl;
-				    shopFile<<num->get_part_number()<<endl;
-				    shopFile<<num->get_part_description()<<endl;
-				    shopFile<<num->get_image_filename()<<endl;
-				    shopFile<<num->get_cost()<<endl;
-				    shopFile<<num->get_weight()<<endl;
-				    shopFile<<num->get_max_power_Arm()<<endl;
+			        num->save(ShopFile);
 				    break;
 			case 2: shopFile<<num->Type()<<endl;
-				    shopFile<<num->get_part_name()<<endl;
-				    shopFile<<num->get_part_number()<<endl;
-				    shopFile<<num->get_part_description()<<endl;
-				    shopFile<<num->get_image_filename()<<endl;
-				    shopFile<<num->get_cost()<<endl;
-				    shopFile<<num->get_weight()<<endl;
-				    shopFile<<num->get_max_arms()<<endl;
-				    shopFile<<num->get_battery_compartments()<<endl;
-				
+				    num->save(ShopFile);				
 				    break;
 			case 3: shopFile<<num->Type()<<endl;
-				    shopFile<<num->get_part_name()<<endl;
-				    shopFile<<num->get_part_number()<<endl;
-				    shopFile<<num->get_part_description()<<endl;
-				    shopFile<<num->get_image_filename()<<endl;
-				    shopFile<<num->get_cost()<<endl;
-				    shopFile<<num->get_weight()<<endl;
-				    shopFile<<num->get_max_speed()<<endl;
-				    shopFile<<num->get_max_power()<<endl;
-				
-			        break;
+				    num->save(ShopFile);
+				    break;
 			case 4: shopFile<<num->Type()<<endl;
-				    shopFile<<num->get_part_name()<<endl;
-				    shopFile<<num->get_part_number()<<endl;
-				    shopFile<<num->get_part_description()<<endl;
-				    shopFile<<num->get_image_filename()<<endl;
-				    shopFile<<num->get_cost()<<endl;
-				    shopFile<<num->get_weight()<<endl;
-				    shopFile<<num->Getpower()<<endl;
-				
+				    num->save(ShopFile);
 				    break;
 			case 5: shopFile<<num->Type()<<endl;
-				    shopFile<<num->get_part_name()<<endl;
-				    shopFile<<num->get_part_number()<<endl;
-				    shopFile<<num->get_part_description()<<endl;
-				    shopFile<<num->get_image_filename()<<endl;
-				    shopFile<<num->get_cost()<<endl;
-				    shopFile<<num->get_weight()<<endl;
-				    shopFile<<num->get_power()<<endl;
-				    shopFile<<num->get_max_energy()<<endl;
-				
-				    break;				
-				
-		}		
-		 
+				    num->save(ShopFile);
+				    break;					
+		}			 
 	 } 
-	
 	shopFile.close();
 }
 void shop::save_List_SA(){
@@ -217,85 +178,27 @@ void shop::save_PM_info(){
 }
 /****************** READ ********************/
 void shop::Read_Robot_Components(){
-	Arm A;
-	Torso T;
-	Locomotor L;
-	Head H;
-	Battery B;
-	string line , name , description, image,model_num;
-	int n=-1,i=0;
-	int type, Torso_max_arms,Torso_batt_com;
-	double cost, weight, arm_power, loco_speed,loco_power,head_power,batt_power,batt_energy;
-	ifstream shopFile1("Components.txt");
-	if(shopFile1.is_open()){
-		while(!shopFile1.eof()){
-			getline(shopFile1,line);
-			n++;}
-		shopFile1.close();
-	}
-	ifstream file2("Components.txt");
+	int type = 0;
+	ifstream file2("Robot_Components_Saved.txt");
 	if(file2.is_open()){
-		while((!file2.eof()) && i<n){
-			getline(file2,line);
-			std::stringstream(line)>>type;
+		while(!file2.eof()){
+			
+			=get_int(file2);
 			switch(type) {
 				case 1: 
-					    getline(file2,line); name=line;A.Set_part_name(name);
-					    getline(file2,line);model_num=line;A.set_part_model_num(model_num);
-					    getline(file2,line);description=line;A.Set_part_description(description);
-					    getline(file2,line);image=line;A.Set_part_image(image);
-					    getline(file2,line);stringstream(line)>>cost;A.Set_part_cost(cost);
-					    getline(file2,line);stringstream(line)>>weight;A.Set_part_weight(weight);
-						getline(file2,line);stringstream(line)>>arm_power;A.set_arm_power(arm_power);
-					    shop::add_component(&A);
-					    i+=8;
+                        components.push_back(new Arm(file2));
 					    break;
-				case 2:  
-					    getline(file2,line); name=line;T.Set_part_name(name);
-					    getline(file2,line);model_num=line;T.set_part_model_num(model_num);
-					    getline(file2,line); description=line;T.Set_part_description(description);
-					    getline(file2,line);image=line;T.Set_part_image(image);
-					    getline(file2,line);stringstream(line)>>cost;T.Set_part_cost(cost);
-					    getline(file2,line);stringstream(line)>>weight;T.Set_part_weight(weight);
-					    getline(file2,line);stringstream(line)>>Torso_max_arms;T.set_Torso_max_arms(Torso_max_arms);
-					    getline(file2,line);stringstream(line)>>Torso_batt_com;	T.set_Torso_batt(Torso_batt_com);
-					    shop::add_component(&T);
-					    i+=8;
+				case 2: 
+                        components.push_back(new Torso(file2));				
 					    break;
 				case 3: 
-					    getline(file2,line);name=line;L.Set_part_name(name);
-					    getline(file2,line);model_num=line;L.set_part_model_num(model_num);
-					    getline(file2,line);description=line;L.Set_part_description(description);
-					    getline(file2,line);image=line;L.Set_part_image(image);
-					    getline(file2,line);stringstream(line)>>cost;L.Set_part_cost(cost);
-					    getline(file2,line);stringstream(line)>>weight;L.Set_part_weight(weight);
-					    getline(file2,line);stringstream(line)>>loco_speed;L.set_max_speed(loco_speed);
-					    getline(file2,line);stringstream(line)>>loco_power;L.set_max_power(loco_power);	
-					    shop::add_component(&L);
-					    i+=9;
+                        components.push_back(new Locomotor(file2));
 					    break;
 				case 4: 
-					    getline(file2,line);name=line;H.Set_part_name(name);
-					    getline(file2,line);model_num=line;H.set_part_model_num(model_num);
-					    getline(file2,line);description=line;H.Set_part_description(description);
-					    getline(file2,line);image=line;H.Set_part_image(image);
-					    getline(file2,line);stringstream(line)>>cost;H.Set_part_cost(cost);	
-					    getline(file2,line);stringstream(line)>>weight;H.Set_part_weight(weight);
-					    getline(file2,line);stringstream(line)>>head_power;H.set_head_power(head_power);
-					    shop::add_component(&H);
-					    i+=8;
+                        components.push_back(new Head(file2));
 					    break;
 				case 5: 
-					    getline(file2,line);name=line;B.Set_part_name(name);
-					    getline(file2,line);model_num=line;B.set_part_model_num(model_num);
-					    getline(file2,line);description=line;B.Set_part_description(description);
-					    getline(file2,line);image=line;B.Set_part_image(image);
-					    getline(file2,line);stringstream(line)>>cost;B.Set_part_cost(cost);	
-					    getline(file2,line);stringstream(line)>>weight;B.Set_part_weight(weight);
-					    getline(file2,line);stringstream(line)>>batt_power;B.set_batt_power(batt_power);
-					    getline(file2,line);stringstream(line)>>batt_energy;B.set_batt_energy(batt_energy);
-					    shop::add_component(&B);
-					    i+=9;	
+                        components.push_back(new Battery(file2));	
 					    break;
 							}
 		}
