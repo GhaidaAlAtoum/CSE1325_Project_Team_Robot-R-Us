@@ -43,8 +43,8 @@ class Product_Manager
 		  void   pull_component(int component_index);
 		  void   pull_Model(int Model_index);
 		  /******************* Print Catalogs ********************/
-		  void   Print_Catalog_Components();
-		  void   Print_Catalog_model();
+		  string   Print_Catalog_Components(int Type);
+		  string   Print_Catalog_model();
 		  string Get_PM_name(){ return(manager_name);}
 
  

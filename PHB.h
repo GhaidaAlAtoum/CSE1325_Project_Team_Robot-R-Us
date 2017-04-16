@@ -1,5 +1,6 @@
 #ifndef PHB_H
 #define PHB_H
+#include "Sales_Associate.h"
 #include <string>
 #include <vector>
 #include <iostream>

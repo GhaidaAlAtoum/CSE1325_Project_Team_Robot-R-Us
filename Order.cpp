@@ -1,3 +1,4 @@
+
 #include "Sales_Associate.h"
 #include "Order.h"
 #include "Model.h"
@@ -8,7 +9,8 @@
 
 using namespace std;
 
-Order::Order(int Num, Robot_model temp){
+Order::Order(int Num, Robot_model temp,string name){
+	customer_name = name;
 	Order_Number=Num;
 	Robot_Model_Order=temp;
     time_t now =time(0);
@@ -35,15 +37,28 @@ int Order::Get_Quantity(){
 	return Quantity;
 }
 /******************** Get Order Model Number+Name ********************/
-string Order::Get_Order_Model_Info(){
-	string temp=NULL;
-	/* Model Number Model Name */
-	temp +=Robot_Model_Order.Get_model_number()+"\t"+Robot_Model_Order.Get_model_name();
+string Order::Get_Order_Model_name(){
+	string temp;
+	temp +=Robot_Model_Order.Get_model_name();
 	return temp;
 }
+string Order::Get_Order_Model_number(){
+	string temp;
+	temp +=Robot_Model_Order.Get_model_number();
+	return temp;
+}
+/******************** Get SA name ********************/
+string Order::Get_SAO_Name(){
+	return(SA_who_Processed_name);
+}
+/******************** Get Customer name ********************/
+string Order::Get_Customer_name(){
+	return(customer_name);
+   	
+}
 /******************** Set SA ********************/
-void Order::Set_SA(SA temp){
-	SA_who_Processed=temp;
+void Order::Set_SA(string temp){
+	SA_who_Processed_name=temp;
 }
 /******************** Set Status ********************/
 void Order::Set_Status(int i){
@@ -55,7 +70,11 @@ void Order::set_Quantity(int temp){
 }
 /******************** Set Model ********************/
 void Order::Set_Model(Robot_model order_model){
-	
+	Robot_Model_Order=order_model;
+}
+/******************** SA  sets The bill********************/
+void Order::set_bill(string temp){
+	bill=temp;
 }
 /*********** Get_Order_cost ***********/
 double Order::order_price(){
@@ -64,7 +83,10 @@ double Order::order_price(){
 double Order::order_shipping_price(){
 	return(Robot_Model_Order.Get_Model_Shipping_Cost());
 }
-
+/*********** Get_Order_Bill ***********/
+string Order::Get_Order_Bill(){
+   return(bill);	
+}
 
 
 

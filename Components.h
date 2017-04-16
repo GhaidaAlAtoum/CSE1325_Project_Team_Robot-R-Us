@@ -21,8 +21,14 @@ public:
   double get_max_power_Arm();
   int Type(){ return 1; }
   void set_arm_power(double temp){ max_power = temp; }
-  
+   friend ostream& operator<<(ostream& ,Arm& );
 };
+ostream& operator<<(ostream& ost,Arm& Arm){
+     
+	ost<<"Name " <<
+	
+		return ost;
+ }
 /********************************** Torso class **********************************/
 
 class Torso:public Robot_Part

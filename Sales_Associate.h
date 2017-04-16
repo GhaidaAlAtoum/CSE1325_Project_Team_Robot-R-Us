@@ -28,7 +28,7 @@ class SA
 		/****************** Check for Unprocessed Orders ******************/
 		string check_for_unprocesses_Orders();
 		/****************** Process an order ******************/
-		void Process_an_order();
+		void Process_an_order(int);
 		/****************** Create List of Processed Orders ******************/
 		string List_Of_Processed_Orders();
 		/******************Get SA NAME ******************/

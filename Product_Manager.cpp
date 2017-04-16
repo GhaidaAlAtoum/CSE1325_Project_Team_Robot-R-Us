@@ -90,6 +90,37 @@ void   Product_Manager::pull_component(int component_index){
 void   Product_Manager::pull_Model(int Model_index){
 	shop::remove_Model(Model_index);
 }
+ /******************* Print Catalogs ********************/
+string  Product_Manager::Print_Catalog_Components(int Type){
+	 return( shop::list_components(Type));
+}
+string  Product_Manager::Print_Catalog_model(){
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
