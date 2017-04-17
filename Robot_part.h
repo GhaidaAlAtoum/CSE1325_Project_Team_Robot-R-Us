@@ -3,10 +3,10 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <fstream>
+#include "USE.h"
 
 using namespace std;
-
-
 // Robot Class and all its Functions
 
 class Robot_Part
@@ -23,6 +23,14 @@ public:
 
   Robot_Part();
   Robot_Part(string, string, string, string, double, double);
+  Robot_Part(istream & input){
+     name=get_string(input);
+     model_number=get_string(input);
+	 description=get_string(input);
+	 image_filename=get_string(input);
+	 cost=get_double(input);
+	 weight=get_double(input);
+  }
   /************ GET functions **************/
   double get_cost();
   double get_shipping_price();
@@ -48,6 +56,7 @@ public:
   virtual double Getpower() {return 0; }
   virtual double get_power() {return 0; }
   virtual double get_max_energy() {return 0;}
+  virtual void save  (ostream& output_save)=0;
   
  
 };

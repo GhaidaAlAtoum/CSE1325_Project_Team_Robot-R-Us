@@ -18,6 +18,7 @@ class SA
 	    /****************** Constructors ******************/
 	    SA();
 		SA(string,string);
+		SA(istream& input);
 		/****************** Check_Name_Pass ******************/
 		bool check_SA_Name_Pass(string,string);
 		/****************** Change Name / Pass ******************/
@@ -39,8 +40,9 @@ class SA
         double check_Salary();
 		/****************** Give_Raise ******************/
 		void Give_Raise(double); 
-
-
+        /****************** Save And Stream ******************/
+        void save  (ostream& output_save);
+        friend ostream& operator<<(ostream& output_print, SA & sa);
 
 
 };

@@ -12,7 +12,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
-#include "Utility.h"
+#include "USE.h"
 
 using namespace std;
 
@@ -45,7 +45,7 @@ class shop
 		static void remove_SA(int);
 		/****************** PRINT********************/
         static string Print_Catalog_Models();
-        static string Print_Catalog_Components();
+        static void Print_Catalog_Components();
 		static string Print_Unprocessed_Orders() ;
         static string Print_Processed_Orders () ;
         /****************** SAVE ********************/

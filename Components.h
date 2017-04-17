@@ -4,7 +4,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Utility.h"
+#include <fstream>
+#include <iomanip>
+#include "USE.h"
 
 /********************************** Arm Class **********************************/
 class Arm:public Robot_Part
@@ -17,7 +19,7 @@ public:
   Arm();
   ~Arm(){}
   Arm(string, string, string, string, double, double,double);
-  Arm(ifstream & input);
+  Arm(istream & input);
   double get_max_power_Arm();
   int Type(){ return 1; }
   void set_arm_power(double temp){ max_power = temp; }
@@ -36,7 +38,7 @@ public:
   Torso();
   ~Torso(){}
   Torso(string, string, string, string, double, double, int, int);
-  Torso(ifstream& input);
+  Torso(istream& input);
   int Type(){ return 2; } 
   int get_battery_compartments();
   int get_max_arms();
@@ -57,7 +59,7 @@ public:
   Locomotor();
   ~Locomotor(){}
   Locomotor(string, string, string, string, double,double, double, double);
-  Locomotor(ifstream& input);
+  Locomotor(istream& input);
   double get_max_speed(){ return max_speed;}
   double get_max_power(){ return max_power;}
   void set_max_power(double temp){ max_power = temp; }
@@ -78,7 +80,7 @@ public:
   Head();
  ~Head(){}
   Head(string, string, string, string, double, double,double);
-  Head(ifstream& input);
+  Head(istream& input);
   double Getpower();
   void set_head_power(double temp){ power = temp; }
   void save  (ostream& output_save);
@@ -97,7 +99,7 @@ public:
   Battery();
  ~Battery(){}
   Battery(string, string,string,string, double,double, double, double);
-  Battery(ifstream& input);
+  Battery(istream& input);
   double get_power();
   double get_max_energy();
   void set_batt_power(double temp){ power_available=temp; }

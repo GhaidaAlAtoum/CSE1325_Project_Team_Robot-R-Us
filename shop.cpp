@@ -13,7 +13,6 @@
 #include<sstream>
 #include <iomanip>
 #include<cstdio>
-#include "Utility.h"
 
 using namespace std;
 vector <Robot_Part*> shop::components;
@@ -69,8 +68,30 @@ void shop::remove_SA(int index){
 string shop::Print_Catalog_Models(){
 	
 }
-string shop::Print_Catalog_Components(){
-	
+void shop::Print_Catalog_Components(){
+	cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Cost"
+		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Weight"<<endl;
+	for( auto & num : components ){
+		
+		   switch(num->Type()){
+			case 1: cout<<*((Arm*)(num));
+				    break;
+			case 2: 
+				    cout<<*((Torso*)(num));
+				    break;
+			case 3: 
+				    cout<<*((Locomotor*)(num));
+				    break;
+			case 4: 
+				    cout<<*((Head*)(num));
+				    break;
+			case 5: 
+				    cout<<*((Battery*)(num));
+				    break;					
+		}			 
+	 } 
 }
 string shop::Print_Processed_Orders(){
 	int i=0;
@@ -92,7 +113,7 @@ string shop::Print_Unprocessed_Orders (){
 }
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
-	char c='*';
+	/*char c='*';
 	vector<string> Arm_Name;
 	vector<string> Arm_Number;
 	vector<double> Arm_Power;
@@ -144,26 +165,26 @@ void shop::save_Robot_Models(){
 		   
 	}
 	
-	ShopFile.close();
+	ShopFile.close();*/
 }
 void shop::save_Robot_Components(){
 	ofstream shopFile ("Robot_Components_Saved.txt");
 	for( auto & num : components ){
 		   switch(num->Type()){
 			case 1: shopFile<<num->Type()<<endl;
-			        num->save(ShopFile);
+			        num->save(shopFile);
 				    break;
 			case 2: shopFile<<num->Type()<<endl;
-				    num->save(ShopFile);				
+				    num->save(shopFile);				
 				    break;
 			case 3: shopFile<<num->Type()<<endl;
-				    num->save(ShopFile);
+				    num->save(shopFile);
 				    break;
 			case 4: shopFile<<num->Type()<<endl;
-				    num->save(ShopFile);
+				    num->save(shopFile);
 				    break;
 			case 5: shopFile<<num->Type()<<endl;
-				    num->save(ShopFile);
+				    num->save(shopFile);
 				    break;					
 		}			 
 	 } 
@@ -185,7 +206,7 @@ void shop::Read_Robot_Components(){
 	if(file2.is_open()){
 		while(!file2.eof()){
 			
-			=get_int(file2);
+			type=get_int(file2);
 			switch(type) {
 				case 1: 
                         components.push_back(new Arm(file2));

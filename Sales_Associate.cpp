@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+#include "USE.h"
 using namespace std;
 
 /****************** Constructors ******************/
@@ -15,6 +15,17 @@ SA::SA(string in_name,string in_pass){
   	SA_Name = in_name;
 	SA_pass = in_pass;
  }
+SA::SA(istream & input){
+	int temp=-1;
+	int i;
+  	SA_Name=get_string(input);
+	SA_pass=get_string(input);
+	Month_Salary=get_double(input);
+	temp=get_int(input);
+	for(i=0;i<=temp;i++){
+	  	Orders_processed_indexes.push_back(get_int(input));
+	}
+}
 /****************** Check_Name_Pass ******************/
 bool SA::check_SA_Name_Pass(string in_name, string in_pass){
   if(in_name == SA_Name && in_pass == SA_pass)
@@ -72,7 +83,25 @@ void SA::Process_an_order(int index){
 	       bill+= "# Robot Name    : "+temp->Get_Order_Model_name()+" # Robot Number : "+temp->Get_Order_Model_number()+'\n';
     shop::Process_Order(index);
 }
-
+/****************** Save And Stream ******************/
+void SA::save  (ostream& output_save){
+	 output_save<<SA_Name<<endl;
+	 output_save<<SA_pass<<endl;
+	 output_save<<Month_Salary<<endl;
+	 output_save<<Orders_processed_indexes.size()<<endl;
+	 for(auto& num :Orders_processed_indexes){ 
+	 output_save<<num<<endl;
+	 }
+ }
+ 
+ostream& operator<<(ostream& output_print, SA & sa){
+	// Name Month_Salary Number of Processed Orders
+	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<sa.Get_SA_Name()
+	            <<std::left<<std::setfill(' ')<<std::setw(15)<<sa.Month_Salary
+		        <<std::left<<std::setfill(' ')<<std::setw(25)<<(sa.Orders_processed_indexes).size()
+		        <<endl;
+	
+}
 
 
 

@@ -3,7 +3,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "Utility.h"
+#include <fstream>
+#include <iomanip>
+#include "USE.h"
 
 using namespace std;
 /********************************** Arm Class **********************************/
@@ -20,9 +22,8 @@ Arm::Arm(string in_name,string in_model_number,string in_description,
 {
   max_power = in_max_power;
 	}
-Arm::Arm(ifstream& input)
-	 :Robot_Part(get_string(input),get_string(input),get_string(input),get_string(input),
-	 get_double(input),get_double(input))
+Arm::Arm(istream& input)
+	 :Robot_Part(input)
 	 { 
 	max_power=get_double(input);
 }
@@ -44,14 +45,14 @@ double Arm::get_max_power_Arm() {
    // Name[20]	Number[20]	Cost[5]	Weight[5] power[5]
    // description:    
    string power = "Power = ";
-   string descrip = "description: "
+   string descrip = "description: ";
 	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<arm.get_part_name()
 	            <<std::left<<std::setfill(' ')<<std::setw(20)<<arm.get_part_number()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<arm.get_cost()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<arm.get_weight()
 				<<std::left<<std::setfill(' ')<<std::setw(8)<<power
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<arm.get_max_power_Arm()
-				<<"\n"<<arm.descrip<<get_part_description()<<endl;
+				<<"\n"<<descrip<<arm.get_part_description()<<endl;
     return output_print;
   }
 
@@ -77,9 +78,8 @@ Torso::Torso(string in_name,
   max_arms = in_max_arms;
 
 }
-Torso::Torso(ifstream& input)
-:Robot_Part(get_string(input),get_string(input),get_string(input),get_string(input),
-	 get_double(input),get_double(input))
+Torso::Torso(istream& input)
+:Robot_Part(input)
 	 {
 	    max_arms=get_int(input);
 		battery_compartments=get_int(input);
@@ -107,7 +107,7 @@ int Torso::get_max_arms(){
       
    string arms = "Max number of Arms : ";
    string batt_comp="Battery compartments : ";
-   string descrip = "description: "
+   string descrip = "description: ";
 	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<torso.get_part_name()
 	            <<std::left<<std::setfill(' ')<<std::setw(20)<<torso.get_part_number()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<torso.get_cost()
@@ -142,9 +142,8 @@ Locomotor::Locomotor(string in_name,
   max_power = in_max_power;
   
 }
-Locomotor::Locomotor(ifstream& input)
-:Robot_Part(get_string(input),get_string(input),get_string(input),get_string(input),
-	 get_double(input),get_double(input))
+Locomotor::Locomotor(istream& input)
+:Robot_Part(input)
 {
 	max_speed=get_double(input);
 	max_power=get_double(input);
@@ -167,7 +166,7 @@ Locomotor::Locomotor(ifstream& input)
       
    string speed = "Speed : ";
    string power = "Power : ";
-   string descrip = "description: "
+   string descrip = "description: ";
 	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<loco.get_part_name()
 	            <<std::left<<std::setfill(' ')<<std::setw(20)<<loco.get_part_number()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<loco.get_cost()
@@ -196,9 +195,8 @@ Head::Head(string in_name,string in_model_number,string in_description,
 {
   power = in_max_power;
 }
-Head::Head(ifstream& input)
-:Robot_Part(get_string(input),get_string(input),get_string(input),get_string(input),
-	 get_double(input),get_double(input))
+Head::Head(istream& input)
+:Robot_Part(input)
 {
 	power=get_double(input);
 }
@@ -218,7 +216,7 @@ double Head::Getpower() {return power;}
    // Name[20]	Number[20]	Cost[5]	Weight[5]  power[4]
    // description:   
    string power = "Power : ";
-   string descrip = "description: "
+   string descrip = "description: ";
 	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<head.get_part_name()
 	            <<std::left<<std::setfill(' ')<<std::setw(20)<<head.get_part_number()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<head.get_cost()
@@ -246,9 +244,8 @@ Battery::Battery(string in_name,string in_model_number,string in_description,
   max_energy = in_max_energy;
   
 }
-Battery::Battery(ifstream& input)
-:Robot_Part(get_string(input),get_string(input),get_string(input),get_string(input),
-	 get_double(input),get_double(input))
+Battery::Battery(istream& input)
+:Robot_Part(input)
 {
 	power_available=get_double(input);
 	max_energy=get_double(input);
@@ -272,7 +269,7 @@ double Battery::get_max_energy() {return max_energy;}
    // description:   
    string power =  "Power : ";
    string energy = "Energy : ";
-   string descrip = "description: "
+   string descrip = "description: ";
 	output_print<<std::left<<std::setfill(' ')<<std::setw(20)<<battery.get_part_name()
 	            <<std::left<<std::setfill(' ')<<std::setw(20)<<battery.get_part_number()
 				<<std::left<<std::setfill(' ')<<std::setw(5)<<battery.get_cost()
