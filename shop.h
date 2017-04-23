@@ -44,10 +44,11 @@ class shop
         static void remove_Model(int );
 		static void remove_SA(int);
 		/****************** PRINT********************/
-        static string Print_Catalog_Models();
+        static void Print_Catalog_Models();
         static void Print_Catalog_Components();
 		static string Print_Unprocessed_Orders() ;
         static string Print_Processed_Orders () ;
+		static void Print_SA_list();
         /****************** SAVE ********************/
 		static void save_List_SA();
         static void save_PHB_info();

@@ -23,12 +23,12 @@ class Robot_model
 	      /////////////////////////////////// Constructor ///////////////////////////////////////
 	      Robot_model();
 	      Robot_model(string,string);
-	      ////////////////////////////////// Print Model Components /////////////////////////////  
-		  string print_model_Components();
+		  Robot_model(istream& input);
           ///////////////////////////////// Get ///////////////////////////////////////////////
           string Get_model_name ();  
 	      string Get_model_number () ;
 		  double Get_model_Price();
+		  int Get_Number_of_comp();
           /******************* Get Arm(s) Info  *********************/   
           string Get_each_Arm_name(int);
           string Get_each_Arm_number(int);
@@ -61,6 +61,14 @@ class Robot_model
 		  double Get_Model_Cost();
           /******************* Get Model Shipping Cost (From The weights of each component)************/		  
 		  double Get_Model_Shipping_Cost();
+		  /******************* Get Model Battery Life *********************/
+          double Battery_Life();
+		   /******************* Get Model Power Limited *********************/
+          bool Power_Limited();
+		   /******************* Get Model Total Weight *********************/
+		  double Model_total_weight();
+		   /******************* Get Model max speed *********************/
+          double Model_max_speed();
           /////////////////////////////////// Add ///////////////////////////////////////////////
           bool   add_Torso(Torso);
 	      bool   add_Head(Head);
@@ -70,7 +78,9 @@ class Robot_model
          //////////////////////////////////// Set ///////////////////////////////////////////////
 	     /*****************   Set Model Price ********************/
 	      void Set_Cost(double);
-	      
+	     
+		 void save(ostream & output_save);
+		 friend ostream& operator<<(ostream& out, Robot_model& model);
 
 };
 #endif

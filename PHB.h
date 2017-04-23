@@ -17,6 +17,7 @@ class PHB {
 	public:
 	/******************* Get Instance *********************/
 	 static PHB& get_Instance_PHB();
+  	 static PHB& get_Instance_PHB(istream& ist);
 	/******************* Add Raise *********************/
 	 static void add_raise_request(string);
 	/******************* Check for Raise Requests *********************/

@@ -65,8 +65,16 @@ void shop::remove_SA(int index){
 	    Sales_Associate_of_Shop.erase(Sales_Associate_of_Shop.begin()+index);
 }
 /****************** PRINT********************/
-string shop::Print_Catalog_Models(){
-	
+void shop::Print_Catalog_Models(){
+	cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Price"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Weight"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Battery Life"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Max Speed"<<endl;
+	for( auto & num : Models ){
+	    cout<< *((Robot_model*)(num));
+	}
 }
 void shop::Print_Catalog_Components(){
 	cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
@@ -111,62 +119,24 @@ string shop::Print_Unprocessed_Orders (){
     }
 	return(temp);
 }
+void shop::Print_SA_list(){
+		cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Month Salary"
+		<<std::left<<std::setfill(' ')<<std::setw(25)<<"Number of Orders processed"<<endl;
+        for( auto & num : Sales_Associate_of_Shop ){
+			cout<<*((SA*)(num));
+		}
+}
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
-	/*char c='*';
-	vector<string> Arm_Name;
-	vector<string> Arm_Number;
-	vector<double> Arm_Power;
+	char c='*';
 	ofstream ShopFile ("Robot_Models_Saved.txt");
 	for( auto & num : Models ){
-      //LOOP through each Model
-		ShopFile<<c<<endl;
-		ShopFile<<num->Get_model_name()<<endl;
-		ShopFile<<num->Get_model_number()<<endl;
-		ShopFile<<num->Get_model_Price()<<endl;
-	  //Loop through each Model Arms which there could be None, one , or two.
-	   for(int itterator =0; itterator<(num->Get_number_of_Arms());itterator++){
-	       ShopFile<<1<<endl;
-		   ShopFile<<num->Get_each_Arm_name(itterator)<<endl;
-		   ShopFile<<num->Get_each_Arm_number(itterator)<<endl;
-		   ShopFile<<num->Get_Arms_power(itterator)<<endl;	   
-	   }
-      // If the Model Has a Torso Save it
-	   if(num->Get_Torso_Exist()){
-	      ShopFile<<2<<endl;
-		  ShopFile<<num->Get_Torso_part_name()<<endl;
-		  ShopFile<<num->Get_Torso_part_number()<<endl;
-		  ShopFile<<num->Get_Torso_Max_arms()<<endl;
-		  ShopFile<<num->Get_Torso_Bat_Comp()<<endl;
-	   }
-	  // If the Model Has a Loco Save it
-	   if(num->Get_Loco_Exist()){
-	      ShopFile<<3<<endl;
-          ShopFile<<num->Get_locomotor_part_name()<<endl;
-		  ShopFile<<num->Get_locomotor_part_number()<<endl;
-		  ShopFile<<num->Get_Locomotor_max_speed()<<endl;
-		  ShopFile<<num->Get_Locomotor_max_power()<<endl;
-	   }
-	  // If the Model Has a Head Save it
-	   if(num->Get_Head_Exist()){
-	      ShopFile<<4<<endl;
-          ShopFile<<num->Get_Head_part_name()<<endl;
-		  ShopFile<<num->Get_Head_part_number()<<endl;
-		  ShopFile<<num->Get_Head_power()<<endl;
-	   }
-	 //Loop through each Model Arms which there could be any Number
-	   for(int itterator2 =0; itterator2<(num->Get_number_of_Batteries());itterator2++){
-	       ShopFile<<5<<endl;
-		   ShopFile<<num->Get_each_Battery_name(itterator2)<<endl;
-		   ShopFile<<num->Get_each_Battery_number(itterator2)<<endl;
-		   ShopFile<<num->Get_Battery_available_power(itterator2)<<endl;
-		   ShopFile<<num->Get_Battery_max_energy(itterator2)<<endl;
-	   }
-		   
+      	ShopFile<<c<<endl;
+		num->save(ShopFile);
 	}
 	
-	ShopFile.close();*/
-}
+	ShopFile.close();}
 void shop::save_Robot_Components(){
 	ofstream shopFile ("Robot_Components_Saved.txt");
 	for( auto & num : components ){
@@ -191,7 +161,13 @@ void shop::save_Robot_Components(){
 	shopFile.close();
 }
 void shop::save_List_SA(){
-	
+	char c='#';	
+	ofstream file2("SA.txt");
+		for( auto & num : Sales_Associate_of_Shop ){
+      	file2<<c<<endl;
+		num->save(file2);
+		}
+	file2.close();
 }
 void shop::save_PHB_info(){
 	
@@ -229,10 +205,28 @@ void shop::Read_Robot_Components(){
 	}
 }
 void shop::Read_Robot_Models(){
-	
+	char t;
+	ifstream file2("Robot_Models_Saved.txt");
+	if(file2.is_open()){
+		while(!file2.eof()){
+			t=get_char(file2);
+			if(t=='*'){
+			Models.push_back(new Robot_model(file2));}
+			}
+		file2.close();
+	}
 }
 void shop::Read_SA_List(){
-	
+	char t;
+	ifstream file2("SA.txt");
+	if(file2.is_open()){
+		while(!file2.eof()){
+			t=get_char(file2);
+			if(t=='#'){
+			Sales_Associate_of_Shop.push_back(new SA(file2));}
+			}
+		file2.close();
+	}
 	
 }
 void shop::Read_PHB_info(){
@@ -278,27 +272,27 @@ void shop::model_add_component(int model_index,int component_index){
 		case 1:
 			   A= (Arm*)(temp);
 			   can_Add=Models[model_index]->add_Arm((*(A)));
-			cout<<" Can ADD ARM : "<<can_Add<<endl;
+		//	cout<<" Can ADD ARM : "<<can_Add<<endl;
 			   break;
 		case 2:
 			   T = (Torso*)(temp);
 			  can_Add= Models[model_index]->add_Torso((*(T)));
-			cout<<" Can ADD Torso : "<<can_Add<<endl;
+		//	cout<<" Can ADD Torso : "<<can_Add<<endl;
 			   break;
 		case 3:
 			  L =(Locomotor*)(temp);
 			   can_Add=Models[model_index]->add_Locomotor((*(L)));
-			cout<<" Can ADD Loco : "<<can_Add<<endl;
+		//	cout<<" Can ADD Loco : "<<can_Add<<endl;
 			   break;
 		case 4:
 			  H=(Head*)(temp);
 			   can_Add=Models[model_index]->add_Head((*(H)));
-			cout<<" Can ADD Head : "<<can_Add<<endl;
+		//	cout<<" Can ADD Head : "<<can_Add<<endl;
 			   break;
 		case 5:
 			   B=(Battery*)(temp);
 			   Models[model_index]->add_Battery((*(B)));
-            cout<<"Can ADD battery \n";
+         //   cout<<"Can ADD battery \n";
 			   break;
 	}
 		

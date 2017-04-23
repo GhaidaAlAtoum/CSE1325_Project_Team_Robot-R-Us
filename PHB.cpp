@@ -14,6 +14,9 @@ PHB& PHB::get_Instance_PHB(){
    static PHB instance;
 	return instance;
 }
+PHB& PHB::get_Instance_PHB(istream& ist){
+	
+}
 /******************* Add Raise *********************/
 void PHB::add_raise_request(string temp){
 	raise_requests.push_back(temp);

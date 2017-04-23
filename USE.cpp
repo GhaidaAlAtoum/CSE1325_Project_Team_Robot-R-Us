@@ -9,7 +9,12 @@ string get_string(istream& ist) {
   getline(ist, result);
   return result;
 }
-
+char get_char(istream& ist) {
+  char result =' ';
+   ist >> result;
+  skip(ist);
+	return result;
+}
 void skip(istream& ist) {
   if (ist.fail()) 
     ist.clear();

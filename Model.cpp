@@ -18,6 +18,35 @@ Robot_model::Robot_model(string in_name , string in_num){
            model_name = in_name;
 	       model_number = in_num;
 }
+Robot_model::Robot_model(istream& input){      int i=0;
+       int j=1;
+       int type =0;
+	   model_name = get_string(input);
+	   model_number = get_string(input);
+	   model_Price = get_double(input);
+       i=get_int(input);
+      for(;j<=i;j++){
+	   type=get_int(input);
+			switch(type) {
+				case 1: 
+                        model_Arm.push_back(Arm(input));
+					    break;
+				case 2: 
+                        model_Torso.push_back(Torso(input));				
+					    break;
+				case 3: 
+                        model_Locomotor.push_back(Locomotor(input));
+					    break;
+				case 4: 
+                        model_Head.push_back(Head(input));
+					    break;
+				case 5: 
+                        model_Battery.push_back(Battery(input));	
+					    break;
+					
+			}
+	  }
+}
 /******************* Add Arm *********************/
 bool Robot_model::add_Arm(Arm in_Arm){
 	if(model_Arm.size()<2) {
@@ -232,8 +261,6 @@ double Robot_model::Get_Model_Cost(){
 	cost += model_Torso[0].get_cost();
 	cost += model_Head[0].get_cost();
 	cost += model_Locomotor[0].get_cost();
-	shipping=this->Get_Model_Shipping_Cost();
-	cost += shipping;
 	return cost;
 }
 /******************* Get Model Shipping Cost   *********************/
@@ -270,11 +297,152 @@ double  Robot_model::Get_model_Price(){
 void Robot_model::Set_Cost(double temp){
     model_Price=temp;
 }
-/******************* Print Model *********************/
-string Robot_model::print_model_Components(){
+/*****************   Get Number_of_comp ********************/
+int Robot_model::Get_Number_of_comp(){
+	int j=0;
+	j+=Get_number_of_Arms();
+	if(Get_Torso_Exist()) j++;
+	if(Get_Loco_Exist()) j++;
+	if(Get_Head_power()) j++;
+	j+=Get_number_of_Batteries();
+	return j;
 	
-
 }
+/******************* Get Model Battery Life *********************/
+ double Robot_model::Battery_Life () { 
+ 	 double sum =0.0;
+	 double sum_Arm=0.0; 
+	 double sum_batt=0.0;
+     sum += Get_Head_power() + 0.15*(Get_Locomotor_max_power());
+	 if((this->Get_number_of_Arms() )!=0){
+	     for(auto & num : model_Arm){
+		    sum_Arm += (num.get_max_power_Arm());
+		 }
+		 sum_Arm *= 0.4;
+	 }
+	 sum += sum_Arm;
+	 if((this->Get_number_of_Batteries())!=0){
+		 for(auto & num : model_Battery){
+			 sum_batt += num.get_max_energy();
+		 }
+	 }
+	 return (sum/(sum_batt)) ;
+ }
+ /******************* Get Model Power Limited *********************/
+ bool Robot_model::Power_Limited () { 
+  double sum =0.0;
+  double sum_batt=0.0;
+  sum += Get_Head_power() + Get_Locomotor_max_power();
+   if((this->Get_number_of_Arms() )!=0){
+	     for(auto & num : model_Arm){
+		    sum += (num.get_max_power_Arm());
+		 }
+	 }
+	 if((this->Get_number_of_Batteries())!=0){
+		 for(auto & num : model_Battery){
+			 sum_batt += num.get_max_energy();
+		 }
+	 }
+	 return(sum>sum_batt);
+ }
+ /******************* Get Model Total Weight *********************/
+double Robot_model::Model_total_weight(){
+ double temp =0.0;
+   for(auto & num : model_Arm){
+		temp += num.get_weight();
+	}
+	if(Get_Torso_Exist()){
+		temp +=model_Torso[0].get_weight();
+	}
+	if(Get_Loco_Exist()){
+		temp +=model_Locomotor[0].get_weight();
+	}
+	if(Get_Head_power()){
+	temp +=model_Head[0].get_weight();
+	}
+	for(auto & num : model_Battery){
+      temp += num.get_weight();
+	}
+	return temp;
+}
+ /******************* Get Model max speed *********************/
+double Robot_model::Model_max_speed(){
+  double temp=0.0;
+  double speed = Get_Locomotor_max_speed();
+  double weight= Model_total_weight();
+  double loco_weight = 0.0;
+	if(Get_Loco_Exist()){
+		loco_weight=model_Locomotor[0].get_weight();
+	}
+  if( (loco_weight*5) >= weight){
+	 return speed;
+  }
+  else {
+	return (speed * ((loco_weight*5)/weight)); 
+  }
+	
+}
+/******************* save and ostream Model *********************/
+void Robot_model::save(ostream & output_save){
+	output_save << model_name <<endl;
+	output_save << model_number <<endl;
+	output_save << model_Price <<endl;
+	output_save << Get_Number_of_comp() <<endl;
+	for(auto & num : model_Arm){
+		output_save<<1<<endl;
+		num.save(output_save);
+	}
+	if(Get_Torso_Exist()){
+		output_save<<2<<endl;
+		model_Torso[0].save(output_save);}
+	if(Get_Loco_Exist()){
+		output_save<<3<<endl;
+		model_Locomotor[0].save(output_save);}
+	if(Get_Head_power()){
+		output_save<<4<<endl;
+		model_Head[0].save(output_save);}
+	for(auto & num : model_Battery){
+		output_save<<5<<endl;
+		num.save(output_save);
+	}
+	
+}
+ostream& operator<<(ostream& out, Robot_model &model){
+ //Name	 Number	 price	 Weight Battery Life 	Max Speed
+ out<<std::left<<std::setfill(' ')<<std::setw(20)<<model.model_name
+	   <<std::left<<std::setfill(' ')<<std::setw(20)<<model.model_number
+	   <<"$"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.model_Price
+	   << "pound "<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_total_weight()
+	   << "Hours "<<std::left<<std::setfill(' ')<<std::setw(20)<<model.Battery_Life()
+	 <<" MPH"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_max_speed()<<endl;
+	return out;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

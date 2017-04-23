@@ -22,7 +22,7 @@ SA::SA(istream & input){
 	SA_pass=get_string(input);
 	Month_Salary=get_double(input);
 	temp=get_int(input);
-	for(i=0;i<=temp;i++){
+	for(i=1;i<=temp;i++){
 	  	Orders_processed_indexes.push_back(get_int(input));
 	}
 }
@@ -100,7 +100,6 @@ ostream& operator<<(ostream& output_print, SA & sa){
 	            <<std::left<<std::setfill(' ')<<std::setw(15)<<sa.Month_Salary
 		        <<std::left<<std::setfill(' ')<<std::setw(25)<<(sa.Orders_processed_indexes).size()
 		        <<endl;
-	
 }
 
 

@@ -28,5 +28,5 @@ int get_int(istream& ist);
 // Return any valid double from the file
 //
 double get_double(istream& ist) ;
-
+char get_char(istream& ist) ;
 #endif
