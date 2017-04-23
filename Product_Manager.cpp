@@ -14,6 +14,18 @@ Product_Manager& Product_Manager::get_Instance(){
 static Product_Manager instance;
 	return instance;	
 }
+void Product_Manager::Read(istream& input){
+	manager_name=get_string(input);
+	manager_password=get_string(input);
+}
+void Product_Manager::save(ostream & output_save){
+	 output_save<<manager_name<<endl;
+	 output_save<<manager_password<<endl;
+}
+void Product_Manager::set_name_pass(string n, string m){
+	manager_name=n;
+	manager_password=m;
+}
 /******************* check name and password *********************/
 bool Product_Manager::check_name_pass(string in_name, string in_pass){
    if(in_name != manager_name || in_pass !=manager_password)
@@ -95,7 +107,7 @@ string  Product_Manager::Print_Catalog_Components(int Type){
 	 return( shop::list_components(Type));
 }
 string  Product_Manager::Print_Catalog_model(){
-	
+	return(shop::Print_Catalog_Models());
 }
 
 

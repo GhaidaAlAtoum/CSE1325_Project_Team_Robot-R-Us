@@ -34,3 +34,34 @@ double get_double(istream& ist) {
   skip(ist);
   return result;
 }
+string print_state(Order_State state){
+       if(state==Order_State::pending)
+		   return("pending");
+	   if(state==Order_State::Billed)
+		   return("Billed");
+       if(state==Order_State::Packeged)
+		   return("Packeged");
+	   if(state==Order_State::Paid)
+		   return("Paid");
+	   if(state==Order_State::shipped)
+		   return("shipped");
+	   if(state==Order_State::canceled)
+		   return("canceled");	  
+}
+Order_State read_state( string state){
+	if(state == "pending")
+		return (Order_State::pending);
+	if(state == "Billed")
+		return (Order_State::Billed);
+	if(state == "Packeged")
+		return (Order_State::Packeged);
+	if(state == "Paid")
+		return (Order_State::Paid);
+	if(state == "shipped")
+		return (Order_State::shipped);
+	if(state == "canceled")
+		return (Order_State::canceled);
+	else
+		return(Order_State::pending);
+	
+}

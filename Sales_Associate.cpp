@@ -42,14 +42,11 @@ void SA::change_Pass(string in_pass){
 }
 /****************** Requist A Raise ******************/
 void SA::Request_Raise(){
-   string request;
-	request +=SA_Name+"\t"+"Number of processed Orders : "+std::to_string(this->number_of_processed_orders())+"\n";
-	request +="\n"+this->List_Of_Processed_Orders();
-   PHB::add_raise_request(request);
+   PHB::add_raise_request(SA_Name);
 }
 /****************** Create List of Processed Orders ******************/
 string SA::List_Of_Processed_Orders(){
-   return(shop::SA_Processed_Orders(SA_Name));
+   //return(shop::SA_Processed_Orders(SA_Name));
 }
 /****************** Number of processed Orders ******************/
 int SA::number_of_processed_orders(){
@@ -72,16 +69,29 @@ string SA::check_for_unprocesses_Orders(){
 	return(shop::Print_Unprocessed_Orders());
 }
 /****************** Process an order ******************/
-void SA::Process_an_order(int index){
+void SA::continue_Process_an_order(int index){
+	ostringstream ss;
+	Order_State temp_state;
+   Orders_processed_indexes.push_back(index);
+   Order * temp =shop::Get_Unprocessed_Order(index);
+   Order_State check = temp->Get_Order_status();
+	
+   if(check == Order_State::Billed ) temp_state=Order_State::Packeged;
+   else if(check == Order_State::Packeged) temp_state=Order_State::Paid;
+}
+void SA::Process_a_new_order(int index){
+	ostringstream ss;
    Orders_processed_indexes.push_back(index);
    Order * temp =shop::Get_Unprocessed_Order(index);
    string pass =SA_Name;
-   temp->Set_SA(pass);
-	temp->Set_Status(1);
+    temp->Set_SA(pass);
+	temp->Set_Status(Order_State::Billed);
+	ss<<"\t\t\tRobot'R'Us\t\t\t"<<endl
+	  <<
 	string bill = "# Order Number  : "+to_string(temp->Get_Order_Number())+"# Date of Sale  : "+temp->Get_Order_Date()+'\n';
 		   bill+= "# Customer Name : "+temp->Get_Customer_name()+'\n';
 	       bill+= "# Robot Name    : "+temp->Get_Order_Model_name()+" # Robot Number : "+temp->Get_Order_Model_number()+'\n';
-    shop::Process_Order(index);
+    shop::Process_Order(index);*/
 }
 /****************** Save And Stream ******************/
 void SA::save  (ostream& output_save){

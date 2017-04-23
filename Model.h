@@ -29,6 +29,7 @@ class Robot_model
 	      string Get_model_number () ;
 		  double Get_model_Price();
 		  int Get_Number_of_comp();
+		  string Profit_margin();
           /******************* Get Arm(s) Info  *********************/   
           string Get_each_Arm_name(int);
           string Get_each_Arm_number(int);

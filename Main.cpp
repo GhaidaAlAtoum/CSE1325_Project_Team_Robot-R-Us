@@ -18,11 +18,11 @@ int main(){
 	/********************* Create shop *********************/
 	shop SH = shop::Instance_shop();
     SH.Read_Robot_Components();
-	SH.Print_Catalog_Components();
+	cout<<SH.Print_Catalog_Components();
 	SH.Read_Robot_Models();
 	SH.Read_SA_List();
-	SH.Print_SA_list();
-	SH.Print_Catalog_Models();
+	cout<<SH.Print_SA_list();
+	cout<<SH.Print_Catalog_Models();
 	/********************* Create ProductManager *********************/
 	Product_Manager PM = Product_Manager::get_Instance();
 	PM.change_name("Ghaida");PM.change_pass("2017");
@@ -109,6 +109,9 @@ int main(){
    	cout<<"\n\n";
 	cout<<PM.Print_Catalog_Components(5)<<endl;
 	/*************************** Saving Components ***************************/
+	cout<<"/**********************************************************\n";
+	cout<<PM.Print_Catalog_Components(5)<<endl;
+	cout<<PM.Print_Catalog_model()<<endl;
 	SH.save_Robot_Components();
     SH.save_Robot_Models();
 	SH.save_List_SA();

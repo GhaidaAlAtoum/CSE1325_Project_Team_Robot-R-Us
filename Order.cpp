@@ -1,4 +1,3 @@
-
 #include "Sales_Associate.h"
 #include "Order.h"
 #include "Model.h"
@@ -6,7 +5,7 @@
 #include <vector>
 #include <string>
 #include <time.h>
-
+#include <sstream>
 using namespace std;
 
 Order::Order(int Num, Robot_model temp,string name){
@@ -20,6 +19,21 @@ Order::Order(int Num, Robot_model temp,string name){
 	strftime(buf,sizeof(buf),"%m/%d/%Y",&tstruct);
 	Date=buf;
 }
+Order::Order(istream & input){
+	string state=" ";
+	char c=' ';
+	Order_Number=get_int(input);
+	state=get_string(input);
+	status=read_state(state);
+	Quantity=get_int(input);
+	customer_name=get_string(input);
+	Date = get_string(input);
+	SA_who_Processed_name=get_string(input);
+	c = get_char(input);
+	if(c=='*'){
+	 	Robot_model Robot_Model_Order(input);	 	
+	}
+}
 /******************** Get Order Number ********************/
 int Order::Get_Order_Number(){
  return Order_Number;
@@ -29,7 +43,7 @@ string Order::Get_Order_Date(){
 	return Date;
 }
 /******************** Get Order Status ********************/
-int Order::Get_Order_status(){
+Order_State Order::Get_Order_status(){
 	return status;
 }
 /******************** Get Quantity********************/
@@ -61,7 +75,7 @@ void Order::Set_SA(string temp){
 	SA_who_Processed_name=temp;
 }
 /******************** Set Status ********************/
-void Order::Set_Status(int i){
+void Order::Set_Status(Order_State i){
     status = i;
 }
 /******************** Set Quantity ********************/
@@ -85,8 +99,50 @@ double Order::order_shipping_price(){
 }
 /*********** Get_Order_Bill ***********/
 string Order::Get_Order_Bill(){
+	
    return(bill);	
+	
 }
+
+void Order::save(ostream& output_save){
+	char c ='*';
+	output_save<<Order_Number<<endl;
+	output_save<<print_state(status)<<endl;
+	output_save<<Quantity<<endl;
+	output_save<<customer_name<<endl;
+	output_save<<Date<<endl;
+	output_save<<SA_who_Processed_name<<endl;
+	output_save<<c<<endl;
+	Robot_Model_Order.save(output_save);
+	
+}
+
+ostream& operator<<(ostream& out, Order& order){
+  //Number Quantity	Date 	Model Name	 customer 	Status
+	out<<std::left<<std::setfill(' ')<<std::setw(20)<<order.Order_Number
+	              <<std::left<<std::setfill(' ')<<std::setw(15)<<order.Quantity
+		          <<std::left<<std::setfill(' ')<<std::setw(20)<<order.Date
+		          <<std::left<<std::setfill(' ')<<std::setw(20)<<order.Get_Order_Model_name()
+		          <<std::left<<std::setfill(' ')<<std::setw(20)<<order.customer_name
+		          <<std::left<<std::setfill(' ')<<std::setw(15)<<print_state(order.status)
+		          <<endl;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

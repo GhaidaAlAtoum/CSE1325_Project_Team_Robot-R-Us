@@ -29,4 +29,15 @@ int get_int(istream& ist);
 //
 double get_double(istream& ist) ;
 char get_char(istream& ist) ;
+
+enum class Order_State{
+	pending,//1
+ 	 Billed,//2
+	 Packeged,//3
+	 Paid,//4
+	 shipped,//5
+	 canceled,//6
+};
+string print_state(Order_State);
+Order_State read_state( string state);
 #endif

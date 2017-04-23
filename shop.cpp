@@ -13,14 +13,16 @@
 #include<sstream>
 #include <iomanip>
 #include<cstdio>
+#include <sstream>
 
 using namespace std;
 vector <Robot_Part*> shop::components;
 vector <Robot_model*> shop::Models;
 vector <customer> shop::shop_Customers;
 Product_Manager shop::shop_Product_Manager = Product_Manager::get_Instance();
+PHB shop::boss = PHB::get_Instance_PHB();
 vector <Order*> shop::shop_processed_Orders ; 
-vector <Order*>  shop::shop_unprocessed_Orders ;
+vector <Order*>  shop::shop_orders ;
 vector <SA*> shop::Sales_Associate_of_Shop;
 int shop::num_orders=0;
 shop& shop::Instance_shop( ){
@@ -41,9 +43,8 @@ Order shop::add_Order(int model_index,int Quantity,string Name){
 	 int num = num_orders;
 	 Robot_model temp_model= *(Models[model_index]);
 	 Order *temp =new Order(num,temp_model,Name);
-     shop_unprocessed_Orders.push_back(temp);
+     shop_orders.push_back(temp);
 	 num_orders++;
-	cout<<"Order Number "<<num<<" Model Name "<<Models[model_index]->Get_model_name()<<" Quantity "<<Quantity<<endl;
 	 return(*(temp));
 }
 void shop::add_SA(SA * temp){
@@ -64,68 +65,98 @@ void shop::remove_Model(int index){
 void shop::remove_SA(int index){
 	    Sales_Associate_of_Shop.erase(Sales_Associate_of_Shop.begin()+index);
 }
+void shop::remove_order(int number){
+    shop_orders.erase(shop_orders.begin()+number);
+}
 /****************** PRINT********************/
-void shop::Print_Catalog_Models(){
-	cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+string shop::Print_Catalog_Models(){
+	std::ostringstream ss;		
+	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Price"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Weight"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Battery Life"
 		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Max Speed"<<endl;
 	for( auto & num : Models ){
-	    cout<< *((Robot_model*)(num));
+	    ss<< *((Robot_model*)(num));
 	}
+	return ss.str();
 }
-void shop::Print_Catalog_Components(){
-	cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+string shop::Print_Catalog_Components(){
+	std::ostringstream ss;
+	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Cost"
 		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Weight"<<endl;
 	for( auto & num : components ){
 		
 		   switch(num->Type()){
-			case 1: cout<<*((Arm*)(num));
+			case 1: ss<<*((Arm*)(num));
 				    break;
 			case 2: 
-				    cout<<*((Torso*)(num));
+				    ss<<*((Torso*)(num));
 				    break;
 			case 3: 
-				    cout<<*((Locomotor*)(num));
+				    ss<<*((Locomotor*)(num));
 				    break;
 			case 4: 
-				    cout<<*((Head*)(num));
+				    ss<<*((Head*)(num));
 				    break;
 			case 5: 
-				    cout<<*((Battery*)(num));
+				    ss<<*((Battery*)(num));
 				    break;					
 		}			 
-	 } 
+	 }
+	return ss.str();
 }
-string shop::Print_Processed_Orders(){
-	int i=0;
-   string temp="(Index)	Order_Number	Date Of Order  SA Name	\n";
-   for(auto &num: shop_processed_Orders){
-	temp +='('+to_string(i)+')'+"\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\t"+num->Get_SAO_Name()+"\n";
-      i++; 
-    }
-	return(temp);
+string shop::Print_all_Orders(){
+	ostringstream ss;
+		ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Date"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Model Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Customer"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Status"<<endl;
+	for(auto & num: shop_orders){
+	  	  ss << *((Order*)(num));
+	}
+		return ss.str();
 }
 string shop::Print_Unprocessed_Orders (){
-	int i=0;
-   string temp="(Index)	Order_Number	Date Of Order  \n";
-   for(auto &num: shop_unprocessed_Orders){
-	temp +='('+to_string(i)+')'+"\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\n";
-      i++; 
-    }
-	return(temp);
+   ostringstream ss;
+		ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Date"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Model Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Customer"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Status"<<endl;
+	for(auto & num: shop_orders){
+		if( num->Get_Order_status() == Order_State::pending){
+	  	  ss << *((Order*)(num)); }
+	}
+		return ss.str();
 }
-void shop::Print_SA_list(){
-		cout<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+string shop::Print_SA_list(){
+	std::ostringstream ss;	
+	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Month Salary"
 		<<std::left<<std::setfill(' ')<<std::setw(25)<<"Number of Orders processed"<<endl;
         for( auto & num : Sales_Associate_of_Shop ){
-			cout<<*((SA*)(num));
+			ss<<*((SA*)(num));
 		}
+	return ss.str();
+}
+string shop::Print_Profit_Margin( ){
+	    string temp;
+		std::ostringstream ss;	
+	    ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Price"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Profit Margin"<<endl;
+	   for( auto & num : Models ){
+	   temp += num->Profit_margin();
+	}
+	return(ss.str()+temp);
 }
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
@@ -170,10 +201,28 @@ void shop::save_List_SA(){
 	file2.close();
 }
 void shop::save_PHB_info(){
-	
+	char c ='%';
+	ofstream file2("PHB.txt");
+	file2<<c<<endl;
+	boss.save(file2);
+	file2.close();
 }
 void shop::save_PM_info(){
+	char c ='@';
+	ofstream file2("PM.txt");
+	file2<<c<<endl;
+	shop_Product_Manager.save(file2);
+	file2.close();
+}
+void shop::save_orders(){
+	char c ='!';
+	ofstream ShopFile ("Orders.txt");
+	for( auto & num : shop_orders ){
+		ShopFile<<c<<endl;
+		num->save(ShopFile);	
+	}
 	
+	ShopFile.close();
 }
 /****************** READ ********************/
 void shop::Read_Robot_Components(){
@@ -230,9 +279,38 @@ void shop::Read_SA_List(){
 	
 }
 void shop::Read_PHB_info(){
-	
+	char t;
+	ifstream file2("PHB.txt");
+	if(file2.is_open()){
+		t=get_char(file2);
+			if(t=='%'){
+				boss.read(file2);
+			}
+      file2.close();
+	}
 }
 void shop::Read_PM_info(){
+	char t;
+	ifstream file2("PM.txt");
+	if(file2.is_open()){
+		t=get_char(file2);
+			if(t=='@'){
+				shop_Product_Manager.Read(file2);
+			}
+      file2.close();
+	}
+}
+void shop::Read_orders(){
+	char t;
+	ifstream file2("Orders.txt");
+	if(file2.is_open()){
+		while(!file2.eof()){
+			t=get_char(file2);
+		if(t=='!'){
+			shop_orders.push_back(new Order(file2));}
+			}
+		file2.close();
+	}
 	
 }
 /****************** PHB AND SA ******************/
@@ -248,12 +326,11 @@ void  shop::Give_Deny_Raise_SA(int index, int yes_No){
    }
 }
 /****************** Process Order ******************/
-void shop::Process_Order(int index){
-	  shop_processed_Orders.push_back(shop_unprocessed_Orders[index]);
-	  shop_unprocessed_Orders.erase(shop_unprocessed_Orders.begin() + index);
+void shop::Process_Order(int index,Order_State new_state){
+   shop_orders[index]->Set_Status(new_state);   
 }
 Order* shop::Get_Unprocessed_Order(int index){
-    return(shop_unprocessed_Orders[index]);
+    return(shop_orders[index]);
 }
 /****************** Destructor *****************/
 shop::~shop(){
@@ -317,76 +394,59 @@ SA* shop::login (int index){
 	return(Sales_Associate_of_Shop[index]);
 }
 /***************** SA list of processed Orders ********************/
-string shop::SA_Processed_Orders(string name){
-	string temp="Order Number	Order Date		Customer Name		Quantity\n";
-	for(auto& num : shop_processed_Orders){
-		if((num->Get_SAO_Name()) == name){
-			temp+="\t"+to_string(num->Get_Order_Number())+"\t\t"+num->Get_Order_Date()+"\t\t"+num->Get_Customer_name()+"\t\t\t"+to_string(num->Get_Quantity())+'\n';
-		}//end_if	
-		}//end_for
-	return temp;
-}
-string shop::List_Of_SA( ){
-  string temp="(index)		NAME		Number of Orders Processed \n";
-	int i=0;
+string shop::PRINT_SA_BY_NAME(string name){
+   std::ostringstream ss;
 	for(auto& num : Sales_Associate_of_Shop){
-		temp+=to_string(i)+"\t\t"+num->Get_SA_Name()+"\t\t"+to_string(num->number_of_processed_orders())+"\n";
-	i++;
+	    if((num->Get_SA_Name())==name){	
+	      ss<<*((SA*)(num));
+		}
 	}
-	return(temp);
+    return ss.str();
 }
 string shop::list_components(int Type){
-	int i=0;
-	string temp;
+	std::ostringstream ss;
+	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Cost"
+		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Weight"<<endl;
 		switch(Type){
-		case 1: temp+="(Index)	Name	Number	Cost	weight	Arm Power	\n";  
+		case 1:
 				for(auto &num: components){
 					if((num->Type())==Type){
-temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
-temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_power_Arm())+"\nDesciption : "+num->get_part_description()+'\n';
+						 ss<<*((Arm*)(num));
 					}
-					i++;
 				}
 			   break;
-		case 2:temp+="(Index)	Name	Number	Cost	weight	max_#_arms		battery_compartments\n";  
+		case 2:
 				for(auto &num: components){
 					if((num->Type())==Type){
-temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
-temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_arms())+"\t\t"+to_string(num->get_battery_compartments())+"\nDesciption : "+num->get_part_description()+'\n';
+						  ss<<*((Torso*)(num));
 					}
-					i++;
 				}
 			   break;
-		case 3:temp+="(Index)	Name	Number	Cost	weight	max speed		max power\n";  
+		case 3:
 				for(auto &num: components){
 					if((num->Type())==Type){
-temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
-temp+=to_string(num->get_weight())+"\t"+to_string(num->get_max_speed())+"\t\t"+to_string(num->get_max_power())+"\nDesciption : "+num->get_part_description()+'\n';
+						ss<<*((Locomotor*)(num));
 					}
-					i++;
 				}
 			   break;
-		case 4:temp+="(Index)	Name	Number	Cost	weight	Head Power	\n";  
+		case 4:
 				for(auto &num: components){
 					if((num->Type())==Type){
-temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
-temp+=to_string(num->get_weight())+"\t"+to_string(num->Getpower())+"\nDesciption : "+num->get_part_description()+'\n';
+						ss<<*((Head*)(num));
 					}
-					i++;
 				}
 			  break;
-		case 5:temp+="(Index)	Name	Number	Cost	weight	available power		max energy\n";  
+		case 5:
 				for(auto &num: components){
 					if((num->Type())==Type){
-temp+='('+to_string(i)+')'+"\t"+num->get_part_name()+"\t"+num->get_part_number()+"\t"+to_string(num->get_cost())+"\t";
-temp+=to_string(num->get_weight())+"\t"+to_string(num->get_power())+"\t\t"+to_string(num->get_max_energy())+"\nDesciption : "+num->get_part_description()+'\n';
+						ss<<*((Battery*)(num));
 					}
-					i++;
 				}
 			   break;	
-			
 	}
-	return temp;
+      return ss.str();
 }
 
 

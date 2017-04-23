@@ -31,7 +31,7 @@ class customer {
    
 /**********************************  Check Order Status **********************************/
    int  check_order_status(int);
- 
+   void cancel_order(int index);
 };
 
 #endif

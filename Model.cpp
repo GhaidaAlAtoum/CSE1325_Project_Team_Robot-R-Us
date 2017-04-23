@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
-
+#include <sstream>
 using namespace std;
 /******************* Constructor *********************/
 Robot_model::Robot_model() {}
@@ -414,11 +414,19 @@ ostream& operator<<(ostream& out, Robot_model &model){
 	   <<"$"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.model_Price
 	   << "pound "<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_total_weight()
 	   << "Hours "<<std::left<<std::setfill(' ')<<std::setw(20)<<model.Battery_Life()
-	 <<" MPH"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_max_speed()<<endl;
+	   <<" MPH"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_max_speed()<<endl;
 	return out;
 }
 
-
+string Robot_model::Profit_margin(){
+	double profit =model_Price-Get_Model_Cost();
+	std::ostringstream ss;	
+     ss<<std::left<<std::setfill(' ')<<std::setw(20)<<model_name
+	   <<std::left<<std::setfill(' ')<<std::setw(20)<<model_number
+	   <<"$"<<std::left<<std::setfill(' ')<<std::setw(10)<<model_Price
+	   <<"$"<<std::left<<std::setfill(' ')<<std::setw(10)<<profit<<endl;
+   return ss.str();
+}
 
 
 

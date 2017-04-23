@@ -17,8 +17,11 @@ class Product_Manager
     public:
 	      /******************* Get Instance *********************/
 	      static Product_Manager& get_Instance();
+		  static void Read(istream& input);
+		  static void set_name_pass(string,string);
+		  void save(ostream& output_save);
 		  /******************* check name and password *********************/
-		  bool   check_name_pass(string,string);
+		  static bool   check_name_pass(string,string);
 		  /******************* Change Name/Pass *********************/
 		  void   change_name(string);
 		  void   change_pass(string);
@@ -46,7 +49,7 @@ class Product_Manager
 		  string   Print_Catalog_Components(int Type);
 		  string   Print_Catalog_model();
 		  string Get_PM_name(){ return(manager_name);}
-
+          
  
 };
 

@@ -24,8 +24,9 @@ class shop
 		 static vector <customer> shop_Customers;
 		 static Product_Manager shop_Product_Manager;
 		 static vector <Order*> shop_processed_Orders ; 
-         static vector <Order*>  shop_unprocessed_Orders ;
+         static vector <Order*>  shop_orders ;
          static vector <SA*> Sales_Associate_of_Shop;
+		 static PHB boss;
 		 static int num_orders ;
 		 shop(){
 		 }
@@ -43,26 +44,30 @@ class shop
         static void remove_component(int );
         static void remove_Model(int );
 		static void remove_SA(int);
+		static void remove_order(int);
 		/****************** PRINT********************/
-        static void Print_Catalog_Models();
-        static void Print_Catalog_Components();
-		static string Print_Unprocessed_Orders() ;
-        static string Print_Processed_Orders () ;
-		static void Print_SA_list();
+        static string Print_Catalog_Models();
+        static string Print_Catalog_Components();
+		static string Print_all_Orders() ;
+        static string Print_Unprocessed_Orders () ;
+		static string Print_SA_list();
+		static string Print_Profit_Margin();
         /****************** SAVE ********************/
 		static void save_List_SA();
         static void save_PHB_info();
         static void save_PM_info();
 		static void save_Robot_Models();
 		static void save_Robot_Components();
+		static void save_orders();
 		/****************** READ ********************/
         static void Read_Robot_Components();
         static void Read_Robot_Models();
 	    static void Read_SA_List();
 		static void Read_PHB_info();
 		static void Read_PM_info();
+		static void Read_orders();
 		/****************** Process Order ******************/
-		static void   Process_Order(int);
+		static void   Process_Order(int,Order_State);
 		static Order* Get_Unprocessed_Order(int); 
 		/****************** PHB AND SA ******************/
 		static void Give_Deny_Raise_SA(int , int);
@@ -73,8 +78,7 @@ class shop
 		/****************** Log in of Customers and SA ******************/
 		static SA* login(int);
         static int check_SA(string,string);
-        static string SA_Processed_Orders(string);
-		static string List_Of_SA();
+        static string PRINT_SA_BY_NAME(string);
 		static string list_components(int);
 };
 

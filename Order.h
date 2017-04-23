@@ -7,14 +7,13 @@
 #include <string>
 #include <fstream>
 #include <time.h>
-
 class Order
 {
   private:
   int Order_Number=0;
-  int status=0;
+  Order_State status=Order_State::pending;
   int Quantity=1;
-  string bill = "Not Processed Yet";
+  string bill = "Notrocessed Yet";
   string customer_name=" ";
   string Date="00/00/0000";
   string SA_who_Processed_name="Def";
@@ -22,9 +21,10 @@ class Order
   
   public:
 	 Order(int,Robot_model,string);
+	 Order(istream&);
 	 /*********** Get Functions ************/
 	 int Get_Order_Number();
-	 int Get_Order_status();
+	 Order_State Get_Order_status();
 	 int Get_Quantity();
 	 string Get_Order_Date();
 	 string Get_Order_Model_name();
@@ -34,7 +34,7 @@ class Order
 	 /*********** Set Functions ************/
 	 void set_Quantity(int);
 	 void Set_SA(string);
-	 void Set_Status(int);
+	 void Set_Status(Order_State);
 	 void Set_Model(Robot_model);
 	 /*********** SA  sets The bill ***********/
 	 void set_bill(string);
@@ -43,6 +43,8 @@ class Order
 	 double order_shipping_price();
 	 /*********** Get_Order_Bill ***********/
 	 string Get_Order_Bill();
+	 void save(ostream&);
+	 friend ostream& operator<<(ostream&,Order&);
 };
 
 #endif
