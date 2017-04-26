@@ -265,21 +265,9 @@ double Robot_model::Get_Model_Cost(){
 }
 /******************* Get Model Shipping Cost   *********************/
 double Robot_model::Get_Model_Shipping_Cost(){
-	  double cost=0.0;
-	if(model_Arm.size()!=0){
-	 for( auto & num : model_Arm ){
-	     cost += num.get_shipping_price();
-	 } 
-	} 
-	if(model_Battery.size()!=0){
-	 for( auto & num : model_Battery ){
-	     cost += num.get_shipping_price();
-	 } 
-	} 
-	cost +=  model_Torso[0].get_shipping_price();
-	cost +=  model_Head[0].get_shipping_price();
-	cost +=  model_Locomotor[0].get_shipping_price();
-	return cost;
+       double shipping = 0.0;
+	   shipping = (this->Model_total_weight())*(15/100);
+	   return shipping;
 }
 /******************* Get Model name   *********************/
  string Robot_model::Get_model_name () {
@@ -414,10 +402,9 @@ ostream& operator<<(ostream& out, Robot_model &model){
 	   <<"$"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.model_Price
 	   << "pound "<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_total_weight()
 	   << "Hours "<<std::left<<std::setfill(' ')<<std::setw(20)<<model.Battery_Life()
-	   <<" MPH"<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_max_speed()<<endl;
+	   <<" MPH "<<std::left<<std::setfill(' ')<<std::setw(10)<<model.Model_max_speed()<<endl;
 	return out;
 }
-
 string Robot_model::Profit_margin(){
 	double profit =model_Price-Get_Model_Cost();
 	std::ostringstream ss;	

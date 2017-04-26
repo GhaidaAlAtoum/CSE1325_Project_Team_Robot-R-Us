@@ -28,8 +28,10 @@ class SA
 		void Request_Raise();
 		/****************** Check for Unprocessed Orders ******************/
 		string check_for_unprocesses_Orders();
+		string check_for_cts_Orders();
 		/****************** Process an order ******************/
-		void Process_an_order(int);
+		void continue_Process_an_order(int index);
+		void Process_a_new_order(int);
 		/****************** Create List of Processed Orders ******************/
 		string List_Of_Processed_Orders();
 		/******************Get SA NAME ******************/

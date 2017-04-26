@@ -12,7 +12,7 @@ class customer {
 	     string password="customer";
 	     string email="customer@----.com";
 	     string phone_number="***-***-****";
-	     vector <Order> customer_orders;
+	     vector <Order*> customer_orders;
 	  public:
 	     customer(string,string,string,string);
 /**********************************  Check_Customer **********************************/
@@ -28,10 +28,11 @@ class customer {
    void  set_pass(string);
 /********************************** Get Functions **********************************/
    string Get_name();
-   
+   string Get_Bill_Order(int index);
 /**********************************  Check Order Status **********************************/
-   int  check_order_status(int);
-   void cancel_order(int index);
+   string  check_order_status(int);
+   bool cancel_order(int index);
+	bool Pay_Order(int index);
 };
 
 #endif

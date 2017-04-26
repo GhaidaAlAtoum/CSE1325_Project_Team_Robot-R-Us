@@ -39,28 +39,28 @@ string print_state(Order_State state){
 		   return("pending");
 	   if(state==Order_State::Billed)
 		   return("Billed");
-       if(state==Order_State::Packeged)
-		   return("Packeged");
 	   if(state==Order_State::Paid)
 		   return("Paid");
-	   if(state==Order_State::shipped)
-		   return("shipped");
 	   if(state==Order_State::canceled)
 		   return("canceled");	  
+	   if(state==Order_State::paid_Packeged)
+		   return("paid_Packeged");
+	   if(state==Order_State::paid_shipped)
+		   return("paid_shipped");
 }
 Order_State read_state( string state){
 	if(state == "pending")
 		return (Order_State::pending);
 	if(state == "Billed")
 		return (Order_State::Billed);
-	if(state == "Packeged")
-		return (Order_State::Packeged);
 	if(state == "Paid")
 		return (Order_State::Paid);
-	if(state == "shipped")
-		return (Order_State::shipped);
 	if(state == "canceled")
 		return (Order_State::canceled);
+	if(state == "paid_Packeged")
+		return (Order_State::paid_Packeged);
+	if(state == "paid_shipped")
+		return (Order_State::paid_shipped);
 	else
 		return(Order_State::pending);
 	

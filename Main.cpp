@@ -18,10 +18,13 @@ int main(){
 	/********************* Create shop *********************/
 	shop SH = shop::Instance_shop();
     SH.Read_Robot_Components();
-	cout<<SH.Print_Catalog_Components();
 	SH.Read_Robot_Models();
 	SH.Read_SA_List();
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Components ~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	cout<<SH.Print_Catalog_Components();
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ SA Read ~~~~~~~~~~~~~~~~~~~~~~~~\n";
 	cout<<SH.Print_SA_list();
+    cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Models ~~~~~~~~~~~~~~~~~~~~~~~~\n";	
 	cout<<SH.Print_Catalog_Models();
 	/********************* Create ProductManager *********************/
 	Product_Manager PM = Product_Manager::get_Instance();
@@ -29,13 +32,12 @@ int main(){
 	shop::add_PM(PM);
 	/********************* Create PHB *********************/
 	PHB  boss = PHB::get_Instance_PHB();
+	shop::add_boss(boss);
 	/********************* PHB Create SA *********************/
-  /*  boss.Add_SA("Rayan","Rayan123");
-	SA  *test=new SA("Chris","Chris123");
-	shop::add_SA(test);
+//	boss.Add_SA("Chris","Chris123");
 	/********************* Create a Customer *********************/
-//	customer Num1("John","123","John@gmail.com","684-987-8654");
-//	customer Num2("Jake","546","Jake@outlook.com","654-892-4721");
+	customer Num1("John","123","John@gmail.com","684-987-8654");
+    customer Num2("Jake","546","Jake@outlook.com","654-892-4721");
 //	cout<<" Is Customer True "<<Num1.check_customer("John","123")<<endl;
     /********************* PM adding Components *********************/
 /*    PM.Instance_new_Arm("A_1","2","A_2","A_3",21,22,23); //0
@@ -60,14 +62,17 @@ int main(){
 	PM.Model_Add_component(1,3);//head (1)
 	PM.Model_Add_component(1,5);//arm (2)*/
 	/********************* Customer Making an Order *********************/
- /*    cout<<"Customer "<<Num1.Get_name()<< " ";
+     cout<<"Customer "<<Num1.Get_name()<< " "<<endl;
 	 Num1.push_Order(1,5);
 	 Num1.push_Order(0,10);
-	 //cout<<Num1.view_Orders()<<endl;
-	 //cout<<Num1.check_order_status(0)<<endl;
-	// cout<<Num1.view_bills(0)<<endl;
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ ############## ~~~~~~~~~~~~~~~~~~~~~~~~\n";	
+	cout<<Num1.view_Orders()<<endl;
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";	
+	cout<<Num1.check_order_status(0)<<endl;
+    cout<<(Num1.Get_Bill_Order(0))<<endl;
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";
     /********************* Process an Order *********************/
-/*	SA * Test;
+  SA * Test;
     int T=shop::check_SA("Rayan","Rayan123");
 	if(T==-1){
 	   cout<<"Wrong PASS \n";	 
@@ -80,16 +85,34 @@ int main(){
 	    Test=shop::login(T);
 	
 	cout<<"~~~~~~~~~~~~~~ Unprocessed_Ordrs ~~~~~~~~~~~~~~~~~\n";
-	cout<<Test->check_for_unprocesses_Orders()<<endl;
-	Test->Process_an_order(0);
+	cout<< (Test->check_for_unprocesses_Orders()) <<endl;
+		cout<<endl<<endl;
+	Test->Process_a_new_order(0);
+		
+		cout<<endl<<endl;
 	}
+	cout<<Num1.Get_Bill_Order(0)<<endl;
+	//Num1.cancel_order(0);
 	cout<<"~~~~~~~~~~~~~~ processed_Ordrs ~~~~~~~~~~~~~~~~~\n";
-	cout<<shop::Print_Processed_Orders()<<endl;
-	cout<<"~~~~~~~~~~~~~~ Unprocessed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+    cout<<shop::Print_all_Orders()<<endl;
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ ############## ~~~~~~~~~~~~~~~~~~~~~~~~\n";	
+	cout<<Num1.view_Orders()<<endl;
+    cout<<"~~~~~~~~~~~~~~ Unprocessed_Ordrs ~~~~~~~~~~~~~~~~~\n";
 	cout<<shop::Print_Unprocessed_Orders()<<endl;
-	cout<<Test->Get_SA_Name()<<" SALARY "<<Test->check_Salary()<<endl;
-	cout<<Test->number_of_processed_orders()<<endl;
-	cout<<Test->List_Of_Processed_Orders()<<endl;
+	Num1.Pay_Order(0);
+    cout <<" ################ continue_Process_an_order ############### \n";
+	cout<<shop::Print_Orders_By_SA(Test->Get_SA_Name());
+	Test->continue_Process_an_order(0);
+	cout<<"~~~~~~~~~~~~~~ processed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+    cout<<shop::Print_all_Orders()<<endl;
+	    cout <<" ################ continue_Process_an_order ############### \n";
+	cout<<shop::Print_Orders_By_SA(Test->Get_SA_Name());
+	Test->continue_Process_an_order(0);
+	cout<<"~~~~~~~~~~~~~~ processed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+    cout<<shop::Print_all_Orders()<<endl;
+	cout<<" Cancel = "<<Num1.cancel_order(0)<<endl;
+	cout<<"~~~~~~~~~~~~~~ processed_Ordrs ~~~~~~~~~~~~~~~~~\n";
+    cout<<shop::Print_all_Orders()<<endl;
 	/********************* Request A raise *********************/
 /*	Test->Request_Raise();
 	boss.Give_Deny_Raise(0,1);
@@ -109,7 +132,7 @@ int main(){
    	cout<<"\n\n";
 	cout<<PM.Print_Catalog_Components(5)<<endl;
 	/*************************** Saving Components ***************************/
-	cout<<"/**********************************************************\n";
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Components ~~~~~~~~~~~~~~~~~~~~~~~~\n";
 	cout<<PM.Print_Catalog_Components(5)<<endl;
 	cout<<PM.Print_Catalog_model()<<endl;
 	SH.save_Robot_Components();

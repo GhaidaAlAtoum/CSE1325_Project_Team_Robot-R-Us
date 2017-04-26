@@ -6,6 +6,7 @@
 #include <string>
 #include <time.h>
 #include <sstream>
+#include <fstream>
 using namespace std;
 
 Order::Order(int Num, Robot_model temp,string name){
@@ -72,6 +73,7 @@ string Order::Get_Customer_name(){
 }
 /******************** Set SA ********************/
 void Order::Set_SA(string temp){
+	
 	SA_who_Processed_name=temp;
 }
 /******************** Set Status ********************/
@@ -87,19 +89,23 @@ void Order::Set_Model(Robot_model order_model){
 	Robot_Model_Order=order_model;
 }
 /******************** SA  sets The bill********************/
-void Order::set_bill(string temp){
-	bill=temp;
+void Order::set_bill(string sent){
+	bill.clear();
+	bill=sent;
 }
 /*********** Get_Order_cost ***********/
 double Order::order_price(){
-   return(Robot_Model_Order.Get_Model_Cost());
+   return(Robot_Model_Order.Get_model_Price());
 }
 double Order::order_shipping_price(){
 	return(Robot_Model_Order.Get_Model_Shipping_Cost());
 }
+double Order::Get_Total_Price(){
+  return(((this->order_price())*(8.25/100))+(this->order_shipping_price()));
+	
+}
 /*********** Get_Order_Bill ***********/
 string Order::Get_Order_Bill(){
-	
    return(bill);	
 	
 }

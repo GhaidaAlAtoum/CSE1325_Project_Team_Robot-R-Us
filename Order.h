@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include<sstream>
 #include <time.h>
 class Order
 {
@@ -13,7 +14,7 @@ class Order
   int Order_Number=0;
   Order_State status=Order_State::pending;
   int Quantity=1;
-  string bill = "Notrocessed Yet";
+  string bill = "Not processed Yet";
   string customer_name=" ";
   string Date="00/00/0000";
   string SA_who_Processed_name="Def";
@@ -41,6 +42,7 @@ class Order
 	 /*********** Get_Order_cost ***********/
 	 double order_price();
 	 double order_shipping_price();
+	 double Get_Total_Price();
 	 /*********** Get_Order_Bill ***********/
 	 string Get_Order_Bill();
 	 void save(ostream&);

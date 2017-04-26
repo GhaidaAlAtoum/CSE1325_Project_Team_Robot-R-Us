@@ -18,10 +18,9 @@
 using namespace std;
 vector <Robot_Part*> shop::components;
 vector <Robot_model*> shop::Models;
-vector <customer> shop::shop_Customers;
+vector <customer*> shop::shop_Customers;
 Product_Manager shop::shop_Product_Manager = Product_Manager::get_Instance();
 PHB shop::boss = PHB::get_Instance_PHB();
-vector <Order*> shop::shop_processed_Orders ; 
 vector <Order*>  shop::shop_orders ;
 vector <SA*> shop::Sales_Associate_of_Shop;
 int shop::num_orders=0;
@@ -33,26 +32,34 @@ shop& shop::Instance_shop( ){
 void shop::add_PM(Product_Manager & temp){
  shop_Product_Manager=temp;	
 }
+void shop::add_boss(PHB & temp){
+ 	boss=temp;
+}
+void shop::add_Customer(customer * temp){
+  	shop_Customers.push_back(temp);
+}
 void shop::add_component(Robot_Part * temp){
 	   	components.push_back(temp);
 }
 void shop::add_Model(Robot_model* temp){
     	Models.push_back(temp);
 }
-Order shop::add_Order(int model_index,int Quantity,string Name){
+Order* shop::add_Order(int model_index,int Quantity,string Name){
 	 int num = num_orders;
 	 Robot_model temp_model= *(Models[model_index]);
 	 Order *temp =new Order(num,temp_model,Name);
+	 temp->set_Quantity(Quantity);
      shop_orders.push_back(temp);
 	 num_orders++;
-	 return(*(temp));
+	 return((temp));
 }
 void shop::add_SA(SA * temp){
 	for(auto & num : Sales_Associate_of_Shop){
 		if((num->Get_SA_Name())==(temp->Get_SA_Name())){
-		 cout<<" ERROR THIS NAME EXIST IN THE SA LIST\n WILL NOT BE ADDED\n";
+		 cout<<" ERROR THIS NAME EXIST IN THE SA LIST  WILL NOT BE ADDED\n";
 			return;
-		} }
+		}
+	}
      shop::Sales_Associate_of_Shop.push_back(temp);
 }
 /****************** REMOVE ********************/
@@ -110,7 +117,7 @@ string shop::Print_Catalog_Components(){
 	return ss.str();
 }
 string shop::Print_all_Orders(){
-	ostringstream ss;
+	std::ostringstream ss;
 		ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Date"
@@ -123,16 +130,19 @@ string shop::Print_all_Orders(){
 		return ss.str();
 }
 string shop::Print_Unprocessed_Orders (){
-   ostringstream ss;
+ std::ostringstream ss;
 		ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Date"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Model Name"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Customer"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Status"<<endl;
+	
 	for(auto & num: shop_orders){
-		if( num->Get_Order_status() == Order_State::pending){
-	  	  ss << *((Order*)(num)); }
+		Order_State temp = num->Get_Order_status();
+		if( temp == (Order_State::pending)){
+	  	ss << *((Order*)(num));
+		}
 	}
 		return ss.str();
 }
@@ -157,6 +167,24 @@ string shop::Print_Profit_Margin( ){
 	   temp += num->Profit_margin();
 	}
 	return(ss.str()+temp);
+}
+string shop::Print_Orders_By_SA(string name){
+	 string temp;
+	 std::ostringstream ss;
+	 ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Date"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Model Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Customer"
+		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Status"<<endl;
+	 for(auto & num: shop_orders){
+		 if(num->Get_SAO_Name()==name){
+	 if((num->Get_Order_status()) == Order_State::Paid || (num->Get_Order_status()) == Order_State::paid_Packeged ){   
+			 ss << *((Order*)(num)); 
+		 }
+	 }
+	 }
+			return ss.str();
 }
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
@@ -326,11 +354,13 @@ void  shop::Give_Deny_Raise_SA(int index, int yes_No){
    }
 }
 /****************** Process Order ******************/
-void shop::Process_Order(int index,Order_State new_state){
-   shop_orders[index]->Set_Status(new_state);   
-}
 Order* shop::Get_Unprocessed_Order(int index){
-    return(shop_orders[index]);
+	for(auto&num : shop_orders){
+	    if(num->Get_Order_Number() == index){
+			return(num);
+			
+		}
+	}
 }
 /****************** Destructor *****************/
 shop::~shop(){
@@ -349,27 +379,22 @@ void shop::model_add_component(int model_index,int component_index){
 		case 1:
 			   A= (Arm*)(temp);
 			   can_Add=Models[model_index]->add_Arm((*(A)));
-		//	cout<<" Can ADD ARM : "<<can_Add<<endl;
 			   break;
 		case 2:
 			   T = (Torso*)(temp);
 			  can_Add= Models[model_index]->add_Torso((*(T)));
-		//	cout<<" Can ADD Torso : "<<can_Add<<endl;
 			   break;
 		case 3:
 			  L =(Locomotor*)(temp);
 			   can_Add=Models[model_index]->add_Locomotor((*(L)));
-		//	cout<<" Can ADD Loco : "<<can_Add<<endl;
 			   break;
 		case 4:
 			  H=(Head*)(temp);
 			   can_Add=Models[model_index]->add_Head((*(H)));
-		//	cout<<" Can ADD Head : "<<can_Add<<endl;
 			   break;
 		case 5:
 			   B=(Battery*)(temp);
 			   Models[model_index]->add_Battery((*(B)));
-         //   cout<<"Can ADD battery \n";
 			   break;
 	}
 		

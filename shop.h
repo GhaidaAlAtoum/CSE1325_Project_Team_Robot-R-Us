@@ -21,9 +21,8 @@ class shop
   private:
          static vector <Robot_Part*> components;
 		 static vector <Robot_model*> Models;
-		 static vector <customer> shop_Customers;
+		 static vector <customer*> shop_Customers;
 		 static Product_Manager shop_Product_Manager;
-		 static vector <Order*> shop_processed_Orders ; 
          static vector <Order*>  shop_orders ;
          static vector <SA*> Sales_Associate_of_Shop;
 		 static PHB boss;
@@ -35,9 +34,11 @@ class shop
         static shop & Instance_shop();
 		/****************** ADD ********************/
 		static void add_PM(Product_Manager&);
+		static void add_boss(PHB & temp);
+		static void add_Customer(customer * temp);
 		static void add_component(Robot_Part*);
         static void add_Model(Robot_model*);
-		static Order add_Order(int,int,string);
+		static Order* add_Order(int,int,string);
 		static void add_SA(SA*);
 		static void model_add_component(int ,int );
 		/****************** REMOVE ********************/
@@ -52,6 +53,7 @@ class shop
         static string Print_Unprocessed_Orders () ;
 		static string Print_SA_list();
 		static string Print_Profit_Margin();
+		static string Print_Orders_By_SA(string name);
         /****************** SAVE ********************/
 		static void save_List_SA();
         static void save_PHB_info();
