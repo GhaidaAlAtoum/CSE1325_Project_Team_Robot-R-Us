@@ -440,6 +440,24 @@ int shop::check_SA(string name, string pass){
 SA* shop::login (int index){
 	return(Sales_Associate_of_Shop[index]);
 }
+int shop::check_customer(string email, string pass){
+	int i=0;
+	for(auto & num : shop_Customers){
+	   if((num->Get_email())==email){
+		  if(num->check_customer(name,pass)){
+			 return(i);//return index of SA
+		  }//end_if_2
+		  else{
+			return(-1)  ;//pass word is wrong
+		  }
+	   }//end_if_1
+	i++;
+	}//end_for
+	return(-2);//SA does not exist 
+}
+customer* shop::login_customer(int index){
+	
+}
 /***************** SA list of processed Orders ********************/
 string shop::PRINT_SA_BY_NAME(string name){
    std::ostringstream ss;

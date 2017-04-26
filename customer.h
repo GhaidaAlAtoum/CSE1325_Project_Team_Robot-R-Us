@@ -29,6 +29,7 @@ class customer {
    void  set_pass(string);
 /********************************** Get Functions **********************************/
    string Get_name();
+   string Get_email();
    string Get_Bill_Order(int index);
 /**********************************  Check Order Status **********************************/
    string  check_order_status(int);

@@ -29,9 +29,9 @@ customer::customer(istream & input){
 	}
 }
 /**********************************  Check_Customer **********************************/
-bool customer::check_customer(string name, string pass){
+bool customer::check_customer(string email_in, string pass){
 	 
-	if(( name == Name) && (password==pass)) {
+	if(( email_in == Name) && (password==pass)) {
 	    return 1;	
 	}
 	return 0;
@@ -61,6 +61,9 @@ void customer::set_pass(string temp){
 /********************************** Get Functions **********************************/
 string customer::Get_name(){
 	return Name;
+}
+string customer::Get_email(){
+	return email;
 }
 /**********************************  Check Order Status **********************************/
 string customer::check_order_status(int index){
@@ -92,7 +95,6 @@ string customer::view_Orders(){
 bool customer::Pay_Order(int index){
 customer_orders[index]->Set_Status(Order_State::Paid);
 }
-
 void customer::save(ostream & output_save){
    	char c ='*';
 	output_save<<Name<<endl;
