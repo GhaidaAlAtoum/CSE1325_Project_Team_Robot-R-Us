@@ -14,6 +14,20 @@ customer::customer(string name,string pass,string emailin , string phone_num){
 	email=emailin;
 	phone_number=phone_num;
 }
+customer::customer(istream & input){
+	int temp=-1;
+	int i;	
+	int num;
+	Name=get_string(input);
+	email=get_string(input);
+	phone_number=get_string(input);
+	password=get_string(input);
+	temp=get_int(input);
+	for(i=1;i<=temp;i++){
+		num=get_int(input);
+	  	customer_orders.push_back(shop::Get_Unprocessed_Order(num));
+	}
+}
 /**********************************  Check_Customer **********************************/
 bool customer::check_customer(string name, string pass){
 	 
@@ -77,5 +91,18 @@ string customer::view_Orders(){
 }
 bool customer::Pay_Order(int index){
 customer_orders[index]->Set_Status(Order_State::Paid);
+}
+
+void customer::save(ostream & output_save){
+   	char c ='*';
+	output_save<<Name<<endl;
+	output_save<<email<<endl;
+	output_save<<phone_number<<endl;
+	output_save<<password<<endl;
+	output_save<<customer_orders.size()<<endl;
+	for(auto& num :customer_orders){ 
+	 output_save<<num->Get_Order_Number()<<endl;
+	 }
+	
 }
 

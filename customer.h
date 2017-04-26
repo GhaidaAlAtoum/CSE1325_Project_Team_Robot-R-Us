@@ -15,6 +15,7 @@ class customer {
 	     vector <Order*> customer_orders;
 	  public:
 	     customer(string,string,string,string);
+	customer(istream & input);
 /**********************************  Check_Customer **********************************/
    bool  check_customer(string,string);
 /**********************************  Print Orders/ Bills **********************************/
@@ -33,6 +34,7 @@ class customer {
    string  check_order_status(int);
    bool cancel_order(int index);
 	bool Pay_Order(int index);
+	void save(ostream & output_save);
 };
 
 #endif

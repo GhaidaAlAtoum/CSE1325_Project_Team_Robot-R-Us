@@ -38,6 +38,9 @@ int main(){
 	/********************* Create a Customer *********************/
 	customer Num1("John","123","John@gmail.com","684-987-8654");
     customer Num2("Jake","546","Jake@outlook.com","654-892-4721");
+	shop::add_Customer(&Num1);
+		shop::add_Customer(&Num2);
+	
 //	cout<<" Is Customer True "<<Num1.check_customer("John","123")<<endl;
     /********************* PM adding Components *********************/
 /*    PM.Instance_new_Arm("A_1","2","A_2","A_3",21,22,23); //0
@@ -135,9 +138,11 @@ int main(){
 	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Components ~~~~~~~~~~~~~~~~~~~~~~~~\n";
 	cout<<PM.Print_Catalog_Components(5)<<endl;
 	cout<<PM.Print_Catalog_model()<<endl;
+	SH.save_orders();
 	SH.save_Robot_Components();
     SH.save_Robot_Models();
 	SH.save_List_SA();
+	SH.save_Customers();
 return 0; }
 
 

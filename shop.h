@@ -46,6 +46,8 @@ class shop
         static void remove_Model(int );
 		static void remove_SA(int);
 		static void remove_order(int);
+		static void save_orders();
+		static void save_Customers();
 		/****************** PRINT********************/
         static string Print_Catalog_Models();
         static string Print_Catalog_Components();
@@ -59,8 +61,7 @@ class shop
         static void save_PHB_info();
         static void save_PM_info();
 		static void save_Robot_Models();
-		static void save_Robot_Components();
-		static void save_orders();
+		static void save_Robot_Components();	
 		/****************** READ ********************/
         static void Read_Robot_Components();
         static void Read_Robot_Models();
@@ -68,6 +69,7 @@ class shop
 		static void Read_PHB_info();
 		static void Read_PM_info();
 		static void Read_orders();
+		static void Read_Customers();
 		/****************** Process Order ******************/
 		static void   Process_Order(int,Order_State);
 		static Order* Get_Unprocessed_Order(int); 

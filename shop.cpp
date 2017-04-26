@@ -252,6 +252,16 @@ void shop::save_orders(){
 	
 	ShopFile.close();
 }
+void shop::save_Customers(){
+     char c = '?';
+	ofstream ShopFile ("customer.txt");
+	for( auto & num : shop_Customers ){
+		ShopFile<<c<<endl;
+		num->save(ShopFile);	
+	}
+	
+	ShopFile.close();
+}
 /****************** READ ********************/
 void shop::Read_Robot_Components(){
 	int type = 0;
@@ -326,6 +336,18 @@ void shop::Read_PM_info(){
 				shop_Product_Manager.Read(file2);
 			}
       file2.close();
+	}
+}
+void shop::Read_Customers(){
+		char t;
+	ifstream file2("customer.txt");
+	if(file2.is_open()){
+		while(!file2.eof()){
+			t=get_char(file2);
+			if(t=='?'){
+			shop_Customers.push_back(new customer(file2));}
+			}
+		file2.close();
 	}
 }
 void shop::Read_orders(){
