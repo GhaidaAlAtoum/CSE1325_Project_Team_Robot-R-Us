@@ -14,16 +14,59 @@
 #include <iomanip>
 #include<cstdio>
 #include <sstream>
-
+#include "login.h"
+#include "mainG.h"
 using namespace std;
+/****************** components ********************/
 vector <Robot_Part*> shop::components;
+/****************** Models ********************/
 vector <Robot_model*> shop::Models;
+/****************** Customers ********************/
 vector <customer*> shop::shop_Customers;
+/****************** Product Manager &  Boss ********************/
 Product_Manager shop::shop_Product_Manager = Product_Manager::get_Instance();
 PHB shop::boss = PHB::get_Instance_PHB();
+/****************** Orders ********************/
 vector <Order*>  shop::shop_orders ;
-vector <SA*> shop::Sales_Associate_of_Shop;
 int shop::num_orders=0;
+/****************** Sales Associates ********************/
+vector <SA*> shop::Sales_Associate_of_Shop;
+/****************** Main Window ********************/
+main_menu shop::Main_Gui;
+/****************** Product Manager GUI ********************/
+ 
+/****************** Boss GUI ********************/
+	 
+/****************** Customer GUI ********************/
+//customer_gui shop::customer_shop_gui; 
+/****************** SA GUI ********************/
+void shop::show_Menu(int Type,int log){
+		
+		  switch(Type){
+		       case 1: {// Main Menu 
+			         Main_Gui.show_window();
+			          break;}
+		       case 2: {Log_In_Gui LogIn(log);
+			         LogIn.show_log();
+			          break;}
+			   case 3: {//Product Manager
+			   
+			          break;}
+			   case 4:{ //Boss
+			   
+			          break;}
+			   case 5: {//Customer
+			   
+			          break;}
+			   case 6: {//SA
+			   
+			          break;}
+		       default: // SHOW THE MAIN ALSO 
+			   
+			          break;
+ 		  }
+	}
+/****************** Shop Get Instance  ********************/
 shop& shop::Instance_shop( ){
 	static shop instance;
            return instance;
@@ -188,6 +231,7 @@ string shop::Print_Orders_By_SA(string name){
 }
 /****************** SAVE ********************/
 void shop::save_Robot_Models(){
+	cout<<" SAVE SAVE \n";
 	char c='*';
 	ofstream ShopFile ("Robot_Models_Saved.txt");
 	for( auto & num : Models ){
@@ -261,6 +305,15 @@ void shop::save_Customers(){
 	}
 	
 	ShopFile.close();
+}
+void shop::save_all(){
+	shop::save_Customers();
+	shop::save_Robot_Models();
+shop::save_Robot_Components();
+shop::save_List_SA();
+shop::save_PHB_info();
+shop::save_PM_info();
+shop::save_orders();
 }
 /****************** READ ********************/
 void shop::Read_Robot_Components(){
@@ -384,9 +437,6 @@ Order* shop::Get_Unprocessed_Order(int index){
 		}
 	}
 }
-/****************** Destructor *****************/
-shop::~shop(){
-}
 /****************** Adding Components to Model *****************/
 void shop::model_add_component(int model_index,int component_index){
     Robot_Part * temp = components[component_index];
@@ -421,7 +471,19 @@ void shop::model_add_component(int model_index,int component_index){
 	}
 		
 }
-/****************** Log in of Customers and SA ******************/
+/****************** Log in of Customers, SA, PM, BOSS ******************/
+bool shop::check_PM(string name, string pass){
+return(shop_Product_Manager.check_name_pass(name,pass));
+}
+Product_Manager& shop::login_PM(){
+	return(shop_Product_Manager);
+}
+int shop::check_boss(string name, string pass){
+	return( boss.check_PHB_Name_Pass(name,pass));
+}
+PHB& shop::login_boss(){
+	return(boss);
+}
 int shop::check_SA(string name, string pass){
 	int i=0;
 	for(auto & num : Sales_Associate_of_Shop){
@@ -444,7 +506,7 @@ int shop::check_customer(string email, string pass){
 	int i=0;
 	for(auto & num : shop_Customers){
 	   if((num->Get_email())==email){
-		  if(num->check_customer(name,pass)){
+		  if(num->check_customer(email,pass)){
 			 return(i);//return index of SA
 		  }//end_if_2
 		  else{
@@ -453,12 +515,12 @@ int shop::check_customer(string email, string pass){
 	   }//end_if_1
 	i++;
 	}//end_for
-	return(-2);//SA does not exist 
+	return(-2);//customer does not exist 
 }
 customer* shop::login_customer(int index){
-	
+	return(shop_Customers[index]);
 }
-/***************** SA list of processed Orders ********************/
+/***************** Print SA bu name ********************/
 string shop::PRINT_SA_BY_NAME(string name){
    std::ostringstream ss;
 	for(auto& num : Sales_Associate_of_Shop){
@@ -468,6 +530,7 @@ string shop::PRINT_SA_BY_NAME(string name){
 	}
     return ss.str();
 }
+/***************** print componentss by type ********************/
 string shop::list_components(int Type){
 	std::ostringstream ss;
 	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
@@ -513,8 +576,9 @@ string shop::list_components(int Type){
 	}
       return ss.str();
 }
-
-
+/****************** Destructor *****************/
+shop::~shop(){
+}
 
 
 

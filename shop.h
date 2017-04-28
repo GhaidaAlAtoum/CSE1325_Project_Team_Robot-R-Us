@@ -13,24 +13,44 @@
 #include <fstream>
 #include <iomanip>
 #include "USE.h"
-
+#include "login.h"
+#include "mainG.h"
 using namespace std;
 
 class shop
 {
   private:
+         /****************** components ********************/
          static vector <Robot_Part*> components;
+		 /****************** Models ********************/
 		 static vector <Robot_model*> Models;
+		 /****************** Customers ********************/
 		 static vector <customer*> shop_Customers;
+		 /****************** Product Manager &  Boss ********************/
 		 static Product_Manager shop_Product_Manager;
-         static vector <Order*>  shop_orders ;
-         static vector <SA*> Sales_Associate_of_Shop;
 		 static PHB boss;
+		 /****************** Orders ********************/
+         static vector <Order*>  shop_orders ;
 		 static int num_orders ;
-		 shop(){
-		 }
+		 /****************** Sales Associates ********************/
+         static vector <SA*> Sales_Associate_of_Shop;
+		 /****************** Log In Window ********************/
+		 /****************** Main Window ********************/
+		 static main_menu Main_Gui;
+		 /****************** Product Manager GUI ********************/
+		 
+		 /****************** Boss GUI ********************/
+		 
+		 /****************** Customer GUI ********************/
+		 //static customer_gui customer_shop_gui;
+		 /****************** SA GUI ********************/
+		
+		 shop(){}
 		 	      
   public:
+        //////////////////////////// GUI FUNCTIONS ////////////////////////////
+		static void show_Menu(int Type,int);
+       /****************** Shop Get Instance  ********************/
         static shop & Instance_shop();
 		/****************** ADD ********************/
 		static void add_PM(Product_Manager&);
@@ -61,7 +81,8 @@ class shop
         static void save_PHB_info();
         static void save_PM_info();
 		static void save_Robot_Models();
-		static void save_Robot_Components();	
+		static void save_Robot_Components();
+		static void save_all();
 		/****************** READ ********************/
         static void Read_Robot_Components();
         static void Read_Robot_Models();
@@ -75,14 +96,21 @@ class shop
 		static Order* Get_Unprocessed_Order(int); 
 		/****************** PHB AND SA ******************/
 		static void Give_Deny_Raise_SA(int , int);
-		
 		static int get_num_orders(){ return num_orders; }
 		/****************** Destructor *****************/
 		~shop();
-		/****************** Log in of Customers and SA ******************/
-		static SA* login(int);
+		/****************** Log in of Customers, SA, PM, BOSS  ******************/
+		static bool check_PM(string , string );
+		static Product_Manager& login_PM();
+		static int check_boss(string, string);
+		static PHB& login_boss();
         static int check_SA(string,string);
+		static SA* login(int);
+		static int check_customer(string, string);
+		static customer* login_customer(int);
+		/***************** Print SA bu name ********************/
         static string PRINT_SA_BY_NAME(string);
+		/***************** print componentss by type ********************/
 		static string list_components(int);
 };
 
