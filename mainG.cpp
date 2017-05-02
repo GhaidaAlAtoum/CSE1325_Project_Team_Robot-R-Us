@@ -14,6 +14,7 @@
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Shared_Image.H>
 #include <FL/Fl_JPEG_Image.H>
+#include "shop.h"
 using namespace std;
 
 ////////////////////////////////////
@@ -22,9 +23,12 @@ using namespace std;
 void window_callback(Fl_Widget* w, void*){
 	switch(fl_choice(" Do You Want To Exit SHOP  ?","&No","&Yes",0))
 		   {
-		case 1:		
+		case 1:	
+				   cout<<"first save\n";
 	  shop::save_all();
+				   cout<< "return\n";
 	  ((Fl_Window*)w)->hide();
+			
 			break;
 		case 0: 
 			break;
@@ -34,18 +38,21 @@ void main_b1_cb(Fl_Widget* w, void* v) {
 	cout << "Product Manager" << endl;
 	Fl_Button *b =(Fl_Button*)w;
 	b->parent()->hide();
-	cout<<"Hide"<<endl;
 	shop::show_Menu(2,1);
 }
 
 void main_b2_cb(Fl_Widget* w, void* v) {
-	//((Controller*)v)->main_b2_cb_i();
-	cout << "Another called" << endl;
+	cout << "Sales A" << endl;
+	Fl_Button *b =(Fl_Button*)w;
+	b->parent()->hide();
+	shop::show_Menu(2,3);
 }
 
 void main_b3_cb(Fl_Widget* w, void* v) {
-		//((Controller*)v)->main_b3_cb_i();
-	cout << "Another callback" << endl;
+	cout << "Customer " << endl;
+	Fl_Button *b =(Fl_Button*)w;
+	b->parent()->hide();
+	shop::show_Menu(2,4);
 }
 
 void main_b4_cb(Fl_Widget* w, void* v) {
@@ -85,10 +92,7 @@ main_menu::main_menu()
 		main_button4->labelsize(20);
         main_button4->color(FL_WHITE);
 		main_window->end();
-	
 }
 
-void main_menu::show_window() {main_window->show();
-							  return;
-							  }
+void main_menu::show_window() {main_window->show();}
 void main_menu::hide_window() {main_window->hide();}

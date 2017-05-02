@@ -118,8 +118,10 @@ void SA::save  (ostream& output_save){
 	 output_save<<SA_pass<<endl;
 	 output_save<<Month_Salary<<endl;
 	 output_save<<Orders_processed_indexes.size()<<endl;
+	cout<<"Size is "<<Orders_processed_indexes.size()<<endl;
 	 for(auto& num :Orders_processed_indexes){ 
 	 output_save<<num<<endl;
+		 cout<<"IN here \n";
 	 }
  }
 ostream& operator<<(ostream& output_print, SA & sa){

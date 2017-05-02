@@ -16,6 +16,9 @@
 #include <sstream>
 #include "login.h"
 #include "mainG.h"
+#include "customer_menu.h"
+#include "pm_gui.h"
+#include "sa_gui.h"
 using namespace std;
 /****************** components ********************/
 vector <Robot_Part*> shop::components;
@@ -31,35 +34,39 @@ vector <Order*>  shop::shop_orders ;
 int shop::num_orders=0;
 /****************** Sales Associates ********************/
 vector <SA*> shop::Sales_Associate_of_Shop;
-/****************** Main Window ********************/
-main_menu shop::Main_Gui;
-/****************** Product Manager GUI ********************/
- 
-/****************** Boss GUI ********************/
-	 
-/****************** Customer GUI ********************/
-//customer_gui shop::customer_shop_gui; 
-/****************** SA GUI ********************/
 void shop::show_Menu(int Type,int log){
 		
 		  switch(Type){
 		       case 1: {// Main Menu 
-			         Main_Gui.show_window();
-			          break;}
+			           main_menu Main_Gui; Main_Gui.show_window(); while(Fl::run());
+			           break;}
 		       case 2: {Log_In_Gui LogIn(log);
-			         LogIn.show_log();
+			            LogIn.show_log(); while(Fl::run());
 			          break;}
-			   case 3: {//Product Manager
-			   
+			   case 3:  {pm_gui MENE;
+						 MENE.show_main();
+						 while(MENE.get_Open())
+						 {
+							Fl::wait(); 
+						 }
+						shop::save_Robot_Models();
+						 shop::save_Robot_Components();
+			          //Product Manager
 			          break;}
-			   case 4:{ //Boss
-			   
+			   case 4:{ 
+			         //Boss
 			          break;}
-			   case 5: {//Customer
-			   
+			   case 5: {
+			            
+			            Customer_gui customer_win(login_customer(log),Models.size()); 
+			  while(customer_win.get_open())
+                { Fl::wait(); }
 			          break;}
 			   case 6: {//SA
-			   
+			  cout<<" log "<<log<<"\n";
+			          sa_gui SAGui(login(log));SAGui.show_window();
+			  	  while(SAGui.get_Open())
+                { Fl::wait(); }
 			          break;}
 		       default: // SHOW THE MAIN ALSO 
 			   
@@ -127,9 +134,28 @@ string shop::Print_Catalog_Models(){
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Weight"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Battery Life"
 		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Max Speed"<<endl;
+	int j=0;
 	for( auto & num : Models ){
 	    ss<< *((Robot_model*)(num));
+			}
+
+	return ss.str();
+}
+string shop::Print_Customers(){
+	for(auto& num: shop_Customers){
+	 cout<<num->Get_name()<<endl;
 	}
+}
+string shop::Print_Models_by_index(int index){
+	cout<<" IN IN \t IN \n\n";
+	std::ostringstream ss;		
+	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Price"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Weight"
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Battery Life"
+		<<std::left<<std::setfill(' ')<<std::setw(10)<<"Max Speed"<<endl;
+	ss<< *((Robot_model*)(Models[index]));
 	return ss.str();
 }
 string shop::Print_Catalog_Components(){
@@ -297,23 +323,33 @@ void shop::save_orders(){
 	ShopFile.close();
 }
 void shop::save_Customers(){
+	cout<<"wow\n";
      char c = '?';
 	ofstream ShopFile ("customer.txt");
 	for( auto & num : shop_Customers ){
 		ShopFile<<c<<endl;
 		num->save(ShopFile);	
 	}
-	
+		cout<<"wow\n";
 	ShopFile.close();
 }
 void shop::save_all(){
-	shop::save_Customers();
+	cout<<"save save\n";	
+	//shop::save_Customers();
+	cout<<"save 1\n";	
 	shop::save_Robot_Models();
-shop::save_Robot_Components();
-shop::save_List_SA();
-shop::save_PHB_info();
-shop::save_PM_info();
-shop::save_orders();
+	cout<<"save 2\n";
+    shop::save_Robot_Components();
+	cout<<"save 3\n";
+    shop::save_List_SA();
+	cout<<"save 4\n";
+    shop::save_PHB_info();
+	cout<<"save 5\n";
+    shop::save_PM_info();
+	cout<<"save 6\n";
+    shop::save_orders();
+	cout<<"save save\n";	
+
 }
 /****************** READ ********************/
 void shop::Read_Robot_Components(){
@@ -450,9 +486,11 @@ void shop::model_add_component(int model_index,int component_index){
 	switch(type){
 		case 1:
 			   A= (Arm*)(temp);
+			cout << *((Arm*) A);
 			   can_Add=Models[model_index]->add_Arm((*(A)));
 			   break;
 		case 2:
+			cout<<"adding torso \n";
 			   T = (Torso*)(temp);
 			  can_Add= Models[model_index]->add_Torso((*(T)));
 			   break;
@@ -532,8 +570,10 @@ string shop::PRINT_SA_BY_NAME(string name){
 }
 /***************** print componentss by type ********************/
 string shop::list_components(int Type){
+	int j =0;
 	std::ostringstream ss;
-	ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
+	ss<<std::left<<"(index) "
+		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Name"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Cost"
 		<<std::left<<std::setfill(' ')<<std::setw(5)<<"Weight"<<endl;
@@ -541,27 +581,34 @@ string shop::list_components(int Type){
 		case 1:
 				for(auto &num: components){
 					if((num->Type())==Type){
+						ss<<"("<<j<<") ";
 						 ss<<*((Arm*)(num));
 					}
+					j++;
 				}
 			   break;
 		case 2:
 				for(auto &num: components){
 					if((num->Type())==Type){
+						ss<<"("<<j<<") ";
 						  ss<<*((Torso*)(num));
 					}
+					j++;
 				}
 			   break;
 		case 3:
 				for(auto &num: components){
 					if((num->Type())==Type){
+						ss<<"("<<j<<") ";
 						ss<<*((Locomotor*)(num));
 					}
+				j++;
 				}
 			   break;
 		case 4:
 				for(auto &num: components){
 					if((num->Type())==Type){
+						ss<<"("<<j<<") ";
 						ss<<*((Head*)(num));
 					}
 				}
@@ -569,12 +616,24 @@ string shop::list_components(int Type){
 		case 5:
 				for(auto &num: components){
 					if((num->Type())==Type){
+						ss<<"("<<j<<") ";
 						ss<<*((Battery*)(num));
 					}
+					j++;
 				}
 			   break;	
 	}
       return ss.str();
+}
+int shop::get_model_index(string name, string number){
+	int j=0;
+   for(auto& num : 	Models){
+	 if(((string)(num->Get_model_name()) == name )&& ((string)(num->Get_model_number()) == number)){
+	     return j;	 
+	 }
+	   j++;
+   }
+	return -1;	
 }
 /****************** Destructor *****************/
 shop::~shop(){

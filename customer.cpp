@@ -23,7 +23,7 @@ customer::customer(istream & input){
 	phone_number=get_string(input);
 	password=get_string(input);
 	temp=get_int(input);
-	for(i=1;i<=temp;i++){
+	for(i=0;i<temp;i++){
 		num=get_int(input);
 	  	customer_orders.push_back(shop::Get_Unprocessed_Order(num));
 	}
@@ -38,6 +38,7 @@ bool customer::check_customer(string email_in, string pass){
 }
 /********************************** push order **********************************/
 void customer::push_Order(int model_index,int Quantity ){
+	cout<<"model index "<<model_index<<"qaunti "<<Quantity<<endl;
 	customer_orders.push_back(shop::add_Order(model_index,Quantity,Name));
 }
 bool customer::cancel_order(int index){
@@ -65,6 +66,9 @@ string customer::Get_name(){
 string customer::Get_email(){
 	return email;
 }
+int customer::Get_Number_of_orders(){
+   return (customer_orders.size());
+}
 /**********************************  Check Order Status **********************************/
 string customer::check_order_status(int index){
 	return(print_state(customer_orders[index]->Get_Order_status()));
@@ -79,7 +83,7 @@ string customer::Get_Bill_Order(int index){
 		return (bill);	
 }
 /**********************************  Print Orders/ Bills **********************************/
-string customer::view_Orders(){
+string customer::view_Orders(int index ){
      std::ostringstream ss;
 		ss<<std::left<<std::setfill(' ')<<std::setw(20)<<"Number"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Quantity"
@@ -87,16 +91,18 @@ string customer::view_Orders(){
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Model Name"
 		<<std::left<<std::setfill(' ')<<std::setw(20)<<"Customer"
 		<<std::left<<std::setfill(' ')<<std::setw(15)<<"Status"<<endl;
-	for(auto &num: customer_orders){
-		ss << *((Order*)(num));
-	}
+	//for(auto &num: customer_orders){
+		ss << *((Order*)(customer_orders[index]));
+	//}
 	return (ss.str());
 }
 bool customer::Pay_Order(int index){
-customer_orders[index]->Set_Status(Order_State::Paid);
+	 if((customer_orders[index]->Get_Order_status()) == Order_State::Billed)
+	 { customer_orders[index]->Set_Status(Order_State::Paid);
+	     return 1; }
+	else return 0;
 }
 void customer::save(ostream & output_save){
-   	char c ='*';
 	output_save<<Name<<endl;
 	output_save<<email<<endl;
 	output_save<<phone_number<<endl;
@@ -105,6 +111,7 @@ void customer::save(ostream & output_save){
 	for(auto& num :customer_orders){ 
 	 output_save<<num->Get_Order_Number()<<endl;
 	 }
+	
 	
 }
 

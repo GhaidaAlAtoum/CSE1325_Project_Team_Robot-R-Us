@@ -78,12 +78,15 @@ void Product_Manager::Instance_new_Battery(string name, string model_number,stri
 /******************* Instance Model *********************/
 void Product_Manager::Instance_new_model(string m_name,string m_number)
 {
+	 cout<<"IN Model\n";
 	Robot_model * temp= new Robot_model(m_name,m_number);
   	push_Model(temp);
-	
+		cout<<"$$$$$$$$$$$$$$$$$$$$$$ \n"<<(shop::Print_Catalog_Models())<<endl;	
 }
 void Product_Manager::Model_Add_component(int model_index,int component_index){
+	cout<<"adding component \n";
      	shop::model_add_component(model_index,component_index);
+	cout<<"$$$$$$$$$$$$$$$$$$$$$$ \n"<<(shop::Print_Catalog_Models())<<endl;
 }
 /******************* Push Component/Model *********************/
 void Product_Manager::push_component(Robot_Part *temp)

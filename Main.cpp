@@ -20,7 +20,10 @@ int main(){
 	shop SH = shop::Instance_shop();
     SH.Read_Robot_Components();
 	SH.Read_Robot_Models();
+	SH.Read_orders();
 	SH.Read_SA_List();
+	
+	SH.Read_Customers();
 	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Components ~~~~~~~~~~~~~~~~~~~~~~~~\n";
 	cout<<SH.Print_Catalog_Components();
     cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ SA Read ~~~~~~~~~~~~~~~~~~~~~~~~\n";
@@ -66,17 +69,19 @@ int main(){
 	PM.Model_Add_component(1,3);//head (1)
 	PM.Model_Add_component(1,5);//arm (2)*/
 	/********************* Customer Making an Order *********************/
-     cout<<"Customer "<<Num1.Get_name()<< " "<<endl;
-	 Num1.push_Order(1,5);
-	 Num1.push_Order(0,10);
-	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ ############## ~~~~~~~~~~~~~~~~~~~~~~~~\n";	
-	cout<<Num1.view_Orders()<<endl;
-	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";	
+  /*   cout<<"Customer "<<Num1.Get_name()<< " "<<endl;
+		cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ ############## ~~~~~~~~~~~~~~~~~~~~~~~~\n";	*/
+/*	cout<<Num1.view_Orders()<<endl;
+ Num1.push_Order(1,5);
+Num1.push_Order(0,10);
+cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ ############## ~~~~~~~~~~~~~~~~~~~~~~~~\n";	
+cout<<Num1.view_Orders()<<endl;*/
+/*	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";	
 	cout<<Num1.check_order_status(0)<<endl;
     cout<<(Num1.Get_Bill_Order(0))<<endl;
-	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";
+	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~##############~~~~~~~~~~~~~~~~~~~~~~~~\n";*/
     /********************* Process an Order *********************/
-  SA * Test;
+  /*SA * Test;
     int T=shop::check_SA("Rayan","Rayan123");
 	if(T==-1){
 	   cout<<"Wrong PASS \n";	 
@@ -134,7 +139,7 @@ int main(){
 	  cout<<"Requests \t"<<num<<endl;
 	}
    	cout<<"\n\n";
-	cout<<PM.Print_Catalog_Components(5)<<endl;
+	cout<<PM.Print_Catalog_Components(5)<<endl; */
 	/*************************** Saving Components ***************************/
 	cout<<"~~~~~~~~~~~~~~~~~~~~~~~~ Catalog Components ~~~~~~~~~~~~~~~~~~~~~~~~\n";
 	cout<<PM.Print_Catalog_Components(5)<<endl;

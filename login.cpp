@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -32,16 +33,18 @@ void unpw_login_cb(Fl_Widget* w, void* ) {
 			      value=(shop::check_PM(username,password));
 			             if( value != 0){
 							 cout<<" Correct"<<endl;
-						//	 unpw_menu_window->hide();
-							 // SHOW PM Window (Product_Manager& ( shop::login_PM()));  
+						     b->parent()->hide();
+							 shop::show_Menu(3,0);
 						  }
 			              else{
-							fl_alert("Password Is Wrong");  
+							fl_alert("Password Is Wrong");
+							b->parent()->hide();
+							shop::show_Menu(1,0);
 						  }
 			               break;
 		case 2 :     value=(shop::check_boss( username,password));
 			              if( value != 0){
-						//	  unpw_menu_window->hide();
+						    // unpw_menu_window->hide();
 							// SHOW PM Window (PHB & ( shop::login_boss()));  
 						  }
 			              else{
@@ -49,23 +52,34 @@ void unpw_login_cb(Fl_Widget* w, void* ) {
 						  }
 			               break;
 		case 3 :       value=(shop::check_SA( username,password));
-			              if(value==-1)
+			              if(value==-1){
 							  fl_alert("Password Is Wrong");
-			              if (value==-2)
+						  		       b->parent()->hide();
+							shop::show_Menu(1,0);
+						  }
+			              if (value==-2){
 								 fl_alert("This SA Does Not Exist In the System ");
+							  		       b->parent()->hide();
+							shop::show_Menu(1,0);}
 			              if (value != -1 && value!=-2){
-							//  unpw_menu_window->hide();
-							  // SHOW SA Window (SA *( shop::login(value)));
+							 b->parent()->hide();
+							  cout<<" correct \n";
+							 shop::show_Menu(6,value);
 						  }
 			               break;
 		case 4 : value=(shop::check_customer( username,password));
-			              if(value==-1)
+			              if(value==-1){
 							  fl_alert("Password Is Wrong");
-			              if (value==-2)
+						       b->parent()->hide();
+							shop::show_Menu(1,0);
+						  }
+			              if (value==-2){
 								 fl_alert("This Customer Does Not Exist In the System ");
+							  b->parent()->hide();
+							shop::show_Menu(1,0);}
 			              if (value != -1 && value!=-2){
-							//  unpw_menu_window->hide();
-							  // SHOW Customer window ( customer * (shop::login_customer(value)));
+							 b->parent()->hide();
+							 shop::show_Menu(5,value);
 						  }
 			               break;
 	}

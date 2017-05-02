@@ -19,7 +19,7 @@ class customer {
 /**********************************  Check_Customer **********************************/
    bool  check_customer(string,string);
 /**********************************  Print Orders/ Bills **********************************/
-   string  view_Orders();
+   string  view_Orders(int);
    string  view_bills(int index);
 /********************************** push order **********************************/
    void  push_Order(int,int);
@@ -27,6 +27,7 @@ class customer {
    void  set_Name(string);
    void  set_email(string);
    void  set_pass(string);
+	int Get_Number_of_orders();
 /********************************** Get Functions **********************************/
    string Get_name();
    string Get_email();

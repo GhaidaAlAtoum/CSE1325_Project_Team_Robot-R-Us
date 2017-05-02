@@ -34,17 +34,7 @@ class shop
 		 static int num_orders ;
 		 /****************** Sales Associates ********************/
          static vector <SA*> Sales_Associate_of_Shop;
-		 /****************** Log In Window ********************/
-		 /****************** Main Window ********************/
-		 static main_menu Main_Gui;
-		 /****************** Product Manager GUI ********************/
-		 
-		 /****************** Boss GUI ********************/
-		 
-		 /****************** Customer GUI ********************/
-		 //static customer_gui customer_shop_gui;
-		 /****************** SA GUI ********************/
-		
+	
 		 shop(){}
 		 	      
   public:
@@ -70,12 +60,14 @@ class shop
 		static void save_Customers();
 		/****************** PRINT********************/
         static string Print_Catalog_Models();
+		static string Print_Customers();
         static string Print_Catalog_Components();
 		static string Print_all_Orders() ;
         static string Print_Unprocessed_Orders () ;
 		static string Print_SA_list();
 		static string Print_Profit_Margin();
 		static string Print_Orders_By_SA(string name);
+		static string Print_Models_by_index(int index);
         /****************** SAVE ********************/
 		static void save_List_SA();
         static void save_PHB_info();
@@ -112,6 +104,7 @@ class shop
         static string PRINT_SA_BY_NAME(string);
 		/***************** print componentss by type ********************/
 		static string list_components(int);
+		static int get_model_index(string name, string num);
 };
 
 #endif
