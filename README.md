@@ -1,17 +1,18 @@
 # CSE1325_Project_Team_Robot-R-Us
 /*********************************** Team Robot'R'Us ***********************************/
-Team Members : Ghaida Al-Atoum , Junu Dhungana , and Jordan McGalliard 
+Team Members : Ghaida Al-Atoum , Junu Dhungana , and Jordan McGalliard.
 
 Team Github Repository : https://github.com/GhaidaAt95/CSE1325_Project_Team_Robot-R-Us.git
 
 Notes :
-     1- The repository has the Classes files and a make file that compiles the Main.cpp
+        1- To log in as a product manager (name,pass) (Ghaida,2017)
+	   To log in as a Sales Associate (name,pass) (Rayan,Rayan123)
+	   To log in as a customer (name,pass) (Jake,123) 
+        2- The repository has the Classes files and a make file that compiles the Main.cpp
 	        with the command make all
-	 2- The controller class is where our work on the GUI is.
-	 3- Our team is working in a different logical order from the provided sprint 
-	    we are trying to finish the respective GUI of each member of the shop (PM,PHB,SA,customer)
-		We hope that you would take into consideration
-	 4- To open the class diagram or the Use case diagram :
+	3- The controller class is where our work on the GUI is.
+ 
+        4- To open the class diagram or the Use case diagram :
 	     Either:
 		 1. Open www.draw.io
 		 2. open using Github
