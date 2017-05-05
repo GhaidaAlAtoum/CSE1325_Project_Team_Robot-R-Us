@@ -6,7 +6,7 @@ Team Github Repository : https://github.com/GhaidaAt95/CSE1325_Project_Team_Robo
 Notes :
         1- To log in as a product manager (name,pass) (Ghaida,2017)
 	   To log in as a Sales Associate (name,pass) (Rayan,Rayan123)
-	   To log in as a customer (name,pass) (Jake,123) 
+	   To log in as a customer (name,pass) (John,123) 
         2- The repository has the Classes files and a make file that compiles the Main.cpp
 	        with the command make all
 	3- The controller class is where our work on the GUI is.
